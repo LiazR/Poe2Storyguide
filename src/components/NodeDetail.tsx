@@ -66,7 +66,7 @@ export function NodeDetail({
           <span className="text-[var(--accent)]">{flowLabel}.</span> {node.title}
         </h1>
 
-        <p className="mt-2 leading-relaxed text-[var(--muted)]">{node.description}</p>
+        <p className="mt-2 leading-relaxed whitespace-pre-line text-[var(--muted)]">{node.description}</p>
 
         {node.images && node.images.length > 0 && (
           <div className="mt-3 grid gap-2">

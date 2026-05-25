@@ -112,7 +112,18 @@ export function GuidePage() {
             canGoPrev={progress.canGoPrev}
             canGoNext={!progress.isChapterEnd || progress.isReviewing}
             onPrev={progress.goPrev}
-            onNext={progress.goNext}
+            onNext={() => {
+              if (progress.isChapterEnd && !progress.isReviewing) {
+                progress.goNext();
+                const idx = manifest.chapters.findIndex((c) => c.id === chapter.id);
+                const nextChapter = manifest.chapters[idx + 1];
+                if (nextChapter) {
+                  window.location.href = `/guide/${nextChapter.id}`;
+                }
+                return;
+              }
+              progress.goNext();
+            }}
             onSetAsCurrent={() => progress.setAsCurrent(progress.selectedNodeId)}
             onReturnToCurrent={progress.returnToCurrent}
           />

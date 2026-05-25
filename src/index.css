@@ -79,9 +79,15 @@ a {
   z-index: 2;
   pointer-events: none;
 }
+.marker-wrap:has(.marker-pin:hover) {
+  z-index: 5;
+}
+.marker-wrap.selected {
+  z-index: 10;
+}
 
 .marker-pin {
-  @apply flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold shadow-md;
+  @apply flex h-[25px] w-[25px] items-center justify-center rounded-full border-2 text-xs font-bold shadow-md;
   position: relative;
   border-color: #fff;
   background: #4b5563;
@@ -151,6 +157,9 @@ a {
   pointer-events: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 2px;
+  padding: 1px 3px;
 }
 
 .marker-badge {
@@ -192,6 +201,13 @@ a {
   }
 }
 
+.chapter-tab {
+  transition: background 0.15s, color 0.15s;
+}
+.chapter-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent);
+}
 .chapter-tab.active {
   background: var(--panel);
   color: var(--accent);
@@ -200,6 +216,10 @@ a {
 
 .node-list-item {
   @apply flex items-center gap-2;
+  transition: background 0.15s;
+}
+.node-list-item:hover {
+  background: rgba(255, 255, 255, 0.04);
 }
 .node-list-item.completed {
   opacity: 0.55;
@@ -208,6 +228,9 @@ a {
   box-shadow: 0 0 0 2px var(--accent);
 }
 .node-list-item.selected {
+  background: var(--panel);
+}
+.node-list-item.selected:hover {
   background: var(--panel);
 }
 .node-list-num {
