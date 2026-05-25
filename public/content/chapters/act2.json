@@ -29,7 +29,7 @@
     {
       "id": "act2",
       "title": "瓦爾克拉斯沙漠",
-      "image": "/public/maps/act2.png"
+      "image": "/maps/act2.png"
     }
   ],
   "nodes": [
@@ -42,7 +42,10 @@
       "mapTitle": "瓦斯提里郊區",
       "description": "跑图贴边走，找BOOS撕裂者。\n打完BOOS回城交任务，拿技能石奖励，进入车队。",
       "next": "node_2",
-      "hint": "贴边跑找撕裂者"
+      "hint": "贴边跑找撕裂者",
+      "images": [
+        { "url": "/InfoMap/Act2_Node1.png" }
+      ]
     },
     {
       "id": "node_2",
@@ -75,7 +78,10 @@
       "mapTitle": "莫頓挖石場",
       "description": "这张图贴边跑多看地图的记录点，一直跑到莫頓礦坑。",
       "next": "node_5",
-      "hint": "贴边跑，多看记录点"
+      "hint": "贴边跑，多看记录点",
+      "images": [
+        { "url": "/InfoMap/Act2_Node4.png" }
+      ]
     },
     {
       "id": "node_5",
@@ -100,6 +106,9 @@
           "title": "回城交任务",
           "body": "回阿杜拉的商队回城交任务传送叛徒之路"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node5.png" }
       ]
     },
     {
@@ -111,7 +120,10 @@
       "mapTitle": "叛徒之路",
       "description": "找到一个被封印的门，击杀boss解锁丝克玛试炼。\n和叛徒贝尔巴拉相反方向可以找到哈拉妮關口。",
       "next": "node_7",
-      "hint": "找封印门解考试炼"
+      "hint": "找封印门解考试炼",
+      "images": [
+        { "url": "/InfoMap/Act2_Node6.png" }
+      ]
     },
     {
       "id": "node_7",
@@ -140,6 +152,9 @@
           "title": "激活记录点",
           "body": "下楼右走激活记录点回阿杜拉車隊"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node7.png" }
       ]
     },
     {
@@ -154,7 +169,7 @@
       "hint": "完成升华试炼",
       "badge": {
         "text": "升华1",
-        "type": "loot"
+        "type": "danger"
       },
       "steps": [
         {
@@ -194,6 +209,9 @@
           "title": "获得奖励",
           "body": "获得专精之书（+2天赋技能点）"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node9.png" }
       ]
     },
     {
@@ -219,6 +237,9 @@
           "title": "可选：甲壳虫精英",
           "body": "甲壳虫精英必掉珠宝，可做可不做"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node10.png" }
       ]
     },
     {
@@ -252,6 +273,9 @@
           "title": "点燃雕像",
           "body": "点燃雕像，完成任务"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node11.png" }
       ]
     },
     {
@@ -277,6 +301,9 @@
           "title": "可选：骸骨神殿",
           "body": "地图边缘点击骸骨神殿获得1级辅助技能宝石"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node12.png" }
       ]
     },
     {
@@ -328,6 +355,9 @@
           "title": "回城",
           "body": "击杀后回城"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node15.png" }
       ]
     },
     {
@@ -353,6 +383,9 @@
           "title": "进入泰坦石窟",
           "body": "拿完buff后传送到地图中央，开启山洞进入泰坦石窟"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node16.png" }
       ]
     },
     {
@@ -378,6 +411,9 @@
           "title": "吹响号角",
           "body": "传送叛徒之路，到船头吹响号角"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node17.png" }
       ]
     },
     {
@@ -407,6 +443,9 @@
           "title": "前往悼念之路",
           "body": "继续往下跑找到悼念之路"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node18.png" }
       ]
     },
     {
@@ -428,6 +467,9 @@
           "title": "贴边跑",
           "body": "贴着边跑一直跑找到戴斯哈尖塔"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node19.png" }
       ]
     },
     {
@@ -457,6 +499,9 @@
           "title": "回城交任务",
           "body": "回城交任务，调整装备，交任务物品"
         }
+      ],
+      "images": [
+        { "url": "/InfoMap/Act2_Node20.png" }
       ]
     },
     {
@@ -468,7 +513,10 @@
       "mapTitle": "無畏隊",
       "description": "这张地图沿着边儿直接跑，跑到boss终点击败BOOS。",
       "next": "node_22",
-      "hint": "贴边跑到底击败Boss"
+      "hint": "贴边跑到底击败Boss",
+      "images": [
+        { "url": "/InfoMap/Act2_Node21.png" }
+      ]
     },
     {
       "id": "node_22",

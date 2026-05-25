@@ -133,12 +133,34 @@ export function MapCanvas({
     setDragging(true);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if ((e.target as HTMLElement).closest(".marker-pin")) return;
+    const t = e.touches[0];
+    dragRef.current = {
+      startX: t.clientX,
+      startY: t.clientY,
+      panX: pan.x,
+      panY: pan.y,
+      moved: false,
+    };
+    setDragging(true);
+  };
+
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       const d = dragRef.current;
       if (!d) return;
       const dx = e.clientX - d.startX;
       const dy = e.clientY - d.startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) d.moved = true;
+      setPan({ x: d.panX + dx, y: d.panY + dy });
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      const d = dragRef.current;
+      if (!d) return;
+      const t = e.touches[0];
+      const dx = t.clientX - d.startX;
+      const dy = t.clientY - d.startY;
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) d.moved = true;
       setPan({ x: d.panX + dx, y: d.panY + dy });
     };
@@ -157,11 +179,21 @@ export function MapCanvas({
       dragRef.current = null;
       setDragging(false);
     };
+    const onTouchEnd = () => {
+      dragRef.current = null;
+      setDragging(false);
+    };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
+    window.addEventListener("touchcancel", onTouchEnd);
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onTouchMove, { passive: false } as EventListenerOptions);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
     };
   }, [debug]);
 
@@ -202,6 +234,7 @@ export function MapCanvas({
         ref={viewportRef}
         className={`map-viewport min-h-0 flex-1 ${dragging ? "dragging" : ""}`}
         onMouseDown={handleMouseDown}
+        onTouchStart={handleTouchStart}
       >
         <div
           className="map-stage"
@@ -219,7 +252,7 @@ export function MapCanvas({
                 const img = e.currentTarget;
                 if (!img.dataset.fallback) {
                   img.dataset.fallback = "1";
-                  img.src = "/maps/act1-shore.svg";
+                  img.src = "/maps/act1.png";
                 }
               }}
             />

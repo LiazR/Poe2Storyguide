@@ -2,6 +2,7 @@
   "contentVersion": "0.1.0",
   "chapters": [
     { "id": "act1", "title": "Act 1", "file": "/content/chapters/act1.json" },
-    { "id": "act2", "title": "Act 2", "file": "/content/chapters/act2.json" }
+    { "id": "act2", "title": "Act 2", "file": "/content/chapters/act2.json" },
+    { "id": "act3", "title": "Act 3", "file": "/content/chapters/act3.json" }
   ]
 }

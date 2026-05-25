@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { StoryNode } from "@/types/content";
 
 interface NodeDetailProps {
@@ -31,6 +31,15 @@ export function NodeDetail({
   onReturnToCurrent,
 }: NodeDetailProps) {
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [lbZoom, setLbZoom] = useState(1);
+  const [lbPan, setLbPan] = useState({ x: 0, y: 0 });
+  const lbDragRef = useRef<{ startX: number; startY: number; panX: number; panY: number } | null>(null);
+
+  const closeLightbox = useCallback(() => {
+    setLightbox(null);
+    setLbZoom(1);
+    setLbPan({ x: 0, y: 0 });
+  }, []);
 
   if (!node) {
     return (
@@ -66,22 +75,25 @@ export function NodeDetail({
           <span className="text-[var(--accent)]">{flowLabel}.</span> {node.title}
         </h1>
 
-        <p className="mt-2 leading-relaxed whitespace-pre-line text-[var(--muted)]">{node.description}</p>
-
         {node.images && node.images.length > 0 && (
           <div className="mt-3 grid gap-2">
             {node.images.map((img) => (
               <button
                 key={img.url}
                 type="button"
-                className="block overflow-hidden rounded-lg border border-[var(--border)]"
+                className="block cursor-zoom-in overflow-hidden rounded-lg border border-[var(--border)]"
                 onClick={() => setLightbox(img.url)}
               >
                 <img src={img.url} alt={img.caption ?? ""} className="w-full" />
+                {img.caption && (
+                  <p className="px-2 py-1 text-xs text-[var(--muted)]">{img.caption}</p>
+                )}
               </button>
             ))}
           </div>
         )}
+
+        <p className="mt-2 leading-relaxed whitespace-pre-line text-[var(--muted)]">{node.description}</p>
 
         {node.steps && node.steps.length > 0 && (
           <ol className="wiki-steps mt-4 list-decimal space-y-3 pl-5">
@@ -117,17 +129,75 @@ export function NodeDetail({
       </div>
 
       {lightbox && (
-        <dialog open className="lightbox" onClose={() => setLightbox(null)}>
+        <div
+          className="lightbox"
+          onWheel={(e) => {
+            e.stopPropagation();
+            const delta = e.deltaY > 0 ? -0.15 : 0.15;
+            setLbZoom((z) => Math.min(5, Math.max(0.3, z + delta)));
+          }}
+          onMouseDown={(e) => {
+            if (e.button !== 0) return;
+            lbDragRef.current = { startX: e.clientX, startY: e.clientY, panX: lbPan.x, panY: lbPan.y };
+            const onMove = (ev: MouseEvent) => {
+              const d = lbDragRef.current;
+              if (!d) return;
+              setLbPan({ x: d.panX + ev.clientX - d.startX, y: d.panY + ev.clientY - d.startY });
+            };
+            const onUp = () => {
+              lbDragRef.current = null;
+              window.removeEventListener("mousemove", onMove);
+              window.removeEventListener("mouseup", onUp);
+            };
+            window.addEventListener("mousemove", onMove);
+            window.addEventListener("mouseup", onUp);
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeLightbox();
+          }}
+        >
           <button
             type="button"
             className="lightbox-close"
-            onClick={() => setLightbox(null)}
+            onClick={closeLightbox}
             aria-label="关闭"
           >
             ×
           </button>
-          <img src={lightbox} alt="" />
-        </dialog>
+          <div className="lightbox-toolbar">
+            <button
+              type="button"
+              className="lightbox-btn"
+              onClick={() => setLbZoom((z) => Math.min(5, z + 0.25))}
+            >
+              +
+            </button>
+            <span className="text-xs text-white/70">{Math.round(lbZoom * 100)}%</span>
+            <button
+              type="button"
+              className="lightbox-btn"
+              onClick={() => setLbZoom((z) => Math.max(0.3, z - 0.25))}
+            >
+              −
+            </button>
+            <button
+              type="button"
+              className="lightbox-btn"
+              onClick={() => { setLbZoom(1); setLbPan({ x: 0, y: 0 }); }}
+            >
+              复位
+            </button>
+          </div>
+          <img
+            src={lightbox}
+            alt=""
+            className="lightbox-img"
+            draggable={false}
+            style={{
+              transform: `translate(${lbPan.x}px, ${lbPan.y}px) scale(${lbZoom})`,
+            }}
+          />
+        </div>
       )}
     </div>
   );

@@ -16,6 +16,29 @@ body {
   font-family: system-ui, "Segoe UI", sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(154, 161, 177, 0.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(154, 161, 177, 0.45);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(154, 161, 177, 0.25) transparent;
+}
+
 a {
   color: inherit;
 }
@@ -249,14 +272,35 @@ a {
 }
 
 .lightbox {
-  @apply fixed inset-0 z-50 m-0 flex max-h-none max-w-none items-center justify-center border-0 bg-black/85 p-4;
+  @apply fixed inset-0 z-50 m-0 flex max-h-none max-w-none items-center justify-center border-0 bg-black/85;
+  cursor: grab;
+  overflow: hidden;
 }
-.lightbox img {
-  max-height: 90vh;
-  max-width: 100%;
+.lightbox:active {
+  cursor: grabbing;
+}
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
 }
 .lightbox-close {
-  @apply absolute right-4 top-4 text-3xl text-white;
+  @apply absolute right-4 top-4 z-10 text-3xl text-white;
+}
+.lightbox-toolbar {
+  @apply absolute bottom-4 left-1/2 z-10 flex items-center gap-2 rounded-lg px-3 py-2;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+}
+.lightbox-btn {
+  @apply rounded border px-2 py-1 text-sm text-white;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+}
+.lightbox-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 900px) {
