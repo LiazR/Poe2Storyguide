@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #1a1b1e;
+  --panel: #25262b;
+  --border: #3a3d45;
+  --text: #e8e9ed;
+  --muted: #9ca3af;
+  --accent: #c9a227;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.btn-primary {
+  @apply rounded-md px-4 py-2 font-medium;
+  background: var(--accent);
+  color: #1a1b1e;
+}
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  @apply rounded-md border px-4 py-2;
+  border-color: var(--border);
+  background: var(--panel);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+}
+.btn-secondary:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.map-tool-btn {
+  @apply rounded border px-2 py-1 text-sm;
+  border-color: var(--border);
+  background: var(--panel);
+}
+
+.guide-left {
+  width: 220px;
+}
+.guide-right {
+  width: min(380px, 38vw);
+}
+.map-viewport {
+  overflow: hidden;
+  background: #121316;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  padding: 12px;
+}
+.map-viewport.dragging {
+  cursor: grabbing;
+}
+.map-stage {
+  transform-origin: 0 0;
+}
+
+.marker-wrap {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marker-pin {
+  @apply flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold shadow-md;
+  position: relative;
+  border-color: #fff;
+  background: #4b5563;
+  color: #fff;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+.marker-wrap.selected .marker-pin {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--accent);
+}
+
+.marker-labels {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.debug-anchor {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #22c55e;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.35);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+
+.debug-click {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.4);
+  pointer-events: none;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+}
+.marker-pin.current {
+  background: var(--accent);
+  color: #1a1b1e;
+  animation: marker-pulse 1.5s ease-in-out infinite;
+}
+.marker-pin.completed {
+  background: #2d5a3d;
+  border-color: #6ee7a0;
+}
+.marker-pin.upcoming {
+  background: #374151;
+}
+
+.marker-name {
+  @apply mt-1 text-center text-[11px] font-semibold leading-tight;
+  color: #f3f4f6;
+  text-shadow:
+    0 0 2px #000,
+    0 1px 1px #000;
+  pointer-events: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.marker-badge {
+  @apply mt-0.5 rounded px-1 py-px text-center text-[10px] font-bold leading-none tracking-wide;
+  pointer-events: none;
+}
+.badge-waypoint {
+  background: #1e4d8c;
+  color: #93c5fd;
+}
+.badge-boss {
+  background: #5c1a1a;
+  color: #fca5a5;
+}
+.badge-skill {
+  background: #3b2f6b;
+  color: #c4b5fd;
+}
+.badge-quest {
+  background: #3d3520;
+  color: var(--accent);
+}
+.badge-danger {
+  background: #4a3000;
+  color: #fdba74;
+}
+.badge-loot {
+  background: #1a3d2e;
+  color: #6ee7b0;
+}
+
+@keyframes marker-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+.chapter-tab.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.node-list-item {
+  @apply flex items-center gap-2;
+}
+.node-list-item.completed {
+  opacity: 0.55;
+}
+.node-list-item.current .node-list-num {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.node-list-item.selected {
+  background: var(--panel);
+}
+.node-list-num {
+  @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold;
+  background: #3a3d45;
+}
+
+.review-banner {
+  background: #3d3520;
+  border-bottom: 1px solid var(--accent);
+  color: #f5e6b8;
+}
+
+.wiki-steps {
+  color: var(--text);
+}
+
+.lightbox {
+  @apply fixed inset-0 z-50 m-0 flex max-h-none max-w-none items-center justify-center border-0 bg-black/85 p-4;
+}
+.lightbox img {
+  max-height: 90vh;
+  max-width: 100%;
+}
+.lightbox-close {
+  @apply absolute right-4 top-4 text-3xl text-white;
+}
+
+@media (max-width: 900px) {
+  .guide-panels {
+    flex-direction: column;
+  }
+  .guide-left,
+  .guide-right {
+    width: 100%;
+    max-height: 28vh;
+  }
+  .guide-center {
+    min-height: 40vh;
+  }
+}

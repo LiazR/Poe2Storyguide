@@ -1,0 +1,6 @@
+{
+  "contentVersion": "0.1.0",
+  "chapters": [
+    { "id": "act1", "title": "Act 1", "file": "/content/chapters/act1.json" }
+  ]
+}
