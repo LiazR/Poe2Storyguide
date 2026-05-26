@@ -14,7 +14,15 @@
 
 ## 预览
 
-项目运行后可访问：
+推荐使用 GitHub Pages 发布在线版本，其他人打开仓库首页即可通过 Pages 链接访问。
+
+发布后的访问地址通常是：
+
+```text
+https://你的GitHub用户名.github.io/Poe2Storyguide/
+```
+
+本地运行后可访问：
 
 - 首页：`http://localhost:5173/`
 - 攻略页：`http://localhost:5173/guide/act1`
@@ -152,6 +160,33 @@ http://localhost:5173/guide/act1?debug=1
 ```
 
 点击地图后，浏览器控制台会输出当前位置坐标。将输出的 `x`、`y` 写入对应节点即可。
+
+## GitHub Pages 在线发布
+
+本仓库已包含 GitHub Pages 自动部署配置：
+
+```text
+.github/workflows/deploy-pages.yml
+```
+
+使用方式：
+
+1. 将代码推送到 GitHub 的 `main` 或 `master` 分支。
+2. 打开 GitHub 仓库页面，进入 `Settings` → `Pages`。
+3. 在 `Build and deployment` 中选择 `Source: GitHub Actions`。
+4. 回到 `Actions` 页面，等待 `Deploy to GitHub Pages` 工作流执行完成。
+5. 部署完成后，GitHub 会显示在线访问地址。
+
+之后每次 push 到 `main` / `master`，都会自动同步内容、构建并重新发布。
+
+## 下载后直接打开
+
+这是一个 Vite + React 单页应用，源码不能像普通 HTML 一样直接双击 `index.html` 运行。推荐两种方式：
+
+- **在线查看**：使用 GitHub Pages，最适合分享给别人。
+- **离线分发**：执行 `npm run build` 后，把 `dist/` 文件夹压缩发给别人；对方需要用任意静态服务器打开，例如 VS Code Live Server、`npx serve dist` 或其他本地 HTTP 服务。
+
+不推荐直接双击 `dist/index.html`，因为浏览器的 `file://` 协议可能会阻止 JSON 内容加载。
 
 ## 构建部署
 
