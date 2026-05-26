@@ -57,6 +57,15 @@ export function HomePage() {
               PoE2 Story Guide · 非官方剧情辅助
             </div>
 
+            <a
+              href="https://github.com/LiazR/Poe2Storyguide"
+              target="_blank"
+              rel="noreferrer"
+              className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-black/25 px-3 py-1 text-xs font-semibold text-[var(--muted)] transition hover:border-[rgba(201,162,39,0.55)] hover:text-[var(--accent)]"
+            >
+              GitHub 仓库 · 如果有用的话别忘了点个 Star
+            </a>
+
             <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
               跑剧情不迷路，
               <span className="block text-[var(--accent)]">下一步直接看地图。</span>
