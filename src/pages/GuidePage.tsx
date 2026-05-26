@@ -77,7 +77,7 @@ export function GuidePage() {
     const onMove = (ev: MouseEvent) => {
       const d = rightResizeRef.current;
       if (!d) return;
-      const next = d.startWidth - (ev.clientX - d.startX);
+      const next = d.startWidth + (ev.clientX - d.startX);
       setRightWidth(Math.min(MAX_RIGHT_WIDTH, Math.max(MIN_RIGHT_WIDTH, next)));
     };
     const onUp = () => {
