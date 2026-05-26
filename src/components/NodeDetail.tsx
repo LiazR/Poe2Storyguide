@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { useCallback, useRef, useState } from "react";
 import type { StoryNode } from "@/types/content";
 
@@ -58,7 +59,7 @@ export function NodeDetail({
         </div>
       )}
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+      <div className="node-detail-scroll min-h-0 flex-1 overflow-y-auto px-4 py-4">
         <p className="text-xs text-[var(--muted)]">
           进度 {flowIndex + 1} / {flowTotal}
         </p>
@@ -81,7 +82,7 @@ export function NodeDetail({
               <button
                 key={img.url}
                 type="button"
-                className="block cursor-zoom-in overflow-hidden rounded-lg border border-[var(--border)]"
+                className="detail-image-card block cursor-zoom-in overflow-hidden rounded-xl"
                 onClick={() => setLightbox(img.url)}
               >
                 <img src={img.url} alt={img.caption ?? ""} className="w-full" />
@@ -114,7 +115,7 @@ export function NodeDetail({
         )}
       </div>
 
-      <div className="detail-actions shrink-0 flex flex-wrap gap-2 border-t border-[var(--border)] p-4">
+      <div className="detail-actions shrink-0 flex flex-wrap gap-2 p-4">
         <button type="button" className="btn-secondary" disabled={!canGoPrev} onClick={onPrev}>
           上一步
         </button>
@@ -128,7 +129,7 @@ export function NodeDetail({
         )}
       </div>
 
-      {lightbox && (
+      {lightbox && createPortal(
         <div
           className="lightbox"
           onWheel={(e) => {
@@ -197,7 +198,8 @@ export function NodeDetail({
               transform: `translate(${lbPan.x}px, ${lbPan.y}px) scale(${lbZoom})`,
             }}
           />
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { MapCanvas } from "@/components/MapCanvas";
@@ -6,6 +6,10 @@ import { NodeDetail } from "@/components/NodeDetail";
 import { loadChapter, loadManifest } from "@/data/loadContent";
 import { useGuideProgress } from "@/hooks/useGuideProgress";
 import type { Chapter, Manifest } from "@/types/content";
+
+const MIN_RIGHT_WIDTH = 320;
+const MAX_RIGHT_WIDTH = 680;
+const DEFAULT_RIGHT_WIDTH = 380;
 
 export function GuidePage() {
   const { chapterId } = useParams<{ chapterId: string }>();
@@ -15,6 +19,10 @@ export function GuidePage() {
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [chapter, setChapter] = useState<Chapter | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [leftCollapsed, setLeftCollapsed] = useState(false);
+  const [rightWidth, setRightWidth] = useState(DEFAULT_RIGHT_WIDTH);
+  const rightResizeRef = useRef<{ startX: number; startWidth: number } | null>(null);
+  const rightResizeListenersRef = useRef<{ onMove: (ev: MouseEvent) => void; onUp: () => void } | null>(null);
 
   useEffect(() => {
     loadManifest()
@@ -48,6 +56,38 @@ export function GuidePage() {
 
   const activeMapId = selectedNode?.mapId ?? chapter?.maps[0]?.id ?? "";
 
+  const cleanupRightResize = useCallback(() => {
+    const listeners = rightResizeListenersRef.current;
+    if (listeners) {
+      window.removeEventListener("mousemove", listeners.onMove);
+      window.removeEventListener("mouseup", listeners.onUp);
+      rightResizeListenersRef.current = null;
+    }
+    rightResizeRef.current = null;
+    document.body.classList.remove("resizing-panel");
+  }, []);
+
+  useEffect(() => cleanupRightResize, [cleanupRightResize]);
+
+  const startRightResize = (e: React.MouseEvent) => {
+    e.preventDefault();
+    cleanupRightResize();
+    rightResizeRef.current = { startX: e.clientX, startWidth: rightWidth };
+    document.body.classList.add("resizing-panel");
+    const onMove = (ev: MouseEvent) => {
+      const d = rightResizeRef.current;
+      if (!d) return;
+      const next = d.startWidth - (ev.clientX - d.startX);
+      setRightWidth(Math.min(MAX_RIGHT_WIDTH, Math.max(MIN_RIGHT_WIDTH, next)));
+    };
+    const onUp = () => {
+      cleanupRightResize();
+    };
+    rightResizeListenersRef.current = { onMove, onUp };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+  };
+
   if (error) {
     return (
       <p className="p-8">
@@ -61,74 +101,87 @@ export function GuidePage() {
   }
 
   return (
-    <div className="guide-layout flex h-dvh flex-col">
-      <header className="guide-header flex shrink-0 items-center gap-4 border-b border-[var(--border)] px-4 py-2">
-        <Link to="/" className="text-sm text-[var(--muted)] hover:text-[var(--accent)]">
-          ← 首页
-        </Link>
-        <h1 className="text-sm font-semibold">{chapter.title}</h1>
-        <span className="text-xs text-[var(--muted)]">
-          {progress.flowIndex + 1} / {progress.flowOrder.length}
-        </span>
-      </header>
+    <div className="guide-layout flex h-dvh gap-3 p-3">
+      <aside className={`guide-left guide-box shrink-0 ${leftCollapsed ? "collapsed" : ""}`}>
+        <div className="guide-left-top flex items-center gap-2 px-3 py-3">
+          <Link to="/" className="guide-home-link">
+            ← 首页
+          </Link>
+          {!leftCollapsed && (
+            <span className="guide-progress-pill">
+              {progress.flowIndex + 1} / {progress.flowOrder.length}
+            </span>
+          )}
+          <button
+            type="button"
+            className="guide-collapse-btn ml-auto"
+            onClick={() => setLeftCollapsed((v) => !v)}
+            aria-label={leftCollapsed ? "展开左侧列表" : "收起左侧列表"}
+          >
+            {leftCollapsed ? "»" : "«"}
+          </button>
+        </div>
+        <ChapterNav
+          manifestChapters={manifest.chapters}
+          activeChapterId={chapter.id}
+          chapter={chapter}
+          selectedNodeId={progress.selectedNodeId}
+          currentNodeId={progress.currentNodeId}
+          flowLabel={progress.flowLabel}
+          getStatus={progress.getNodeStatus}
+          collapsed={leftCollapsed}
+          onSelectChapter={(id) => {
+            window.location.href = `/guide/${id}`;
+          }}
+          onSelectNode={progress.selectNode}
+        />
+      </aside>
 
-      <div className="guide-panels min-h-0 flex flex-1">
-        <aside className="guide-left shrink-0 border-r border-[var(--border)]">
-          <ChapterNav
-            manifestChapters={manifest.chapters}
-            activeChapterId={chapter.id}
-            chapter={chapter}
-            selectedNodeId={progress.selectedNodeId}
-            currentNodeId={progress.currentNodeId}
-            flowLabel={progress.flowLabel}
-            getStatus={progress.getNodeStatus}
-            onSelectChapter={(id) => {
-              window.location.href = `/guide/${id}`;
-            }}
-            onSelectNode={progress.selectNode}
-          />
-        </aside>
+      <main className="guide-center guide-box min-w-0 flex-1">
+        <MapCanvas
+          chapter={chapter}
+          activeMapId={activeMapId}
+          selectedNodeId={progress.selectedNodeId}
+          getStatus={progress.getNodeStatus}
+          flowLabel={progress.flowLabel}
+          onSelectNode={progress.selectNode}
+          debug={debug}
+        />
+      </main>
 
-        <main className="guide-center min-w-0 flex-1 border-r border-[var(--border)]">
-          <MapCanvas
-            chapter={chapter}
-            activeMapId={activeMapId}
-            selectedNodeId={progress.selectedNodeId}
-            getStatus={progress.getNodeStatus}
-            flowLabel={progress.flowLabel}
-            onSelectNode={progress.selectNode}
-            debug={debug}
-          />
-        </main>
-
-        <aside className="guide-right shrink-0">
-          <NodeDetail
-            node={selectedNode}
-            flowIndex={progress.flowIndex}
-            flowTotal={progress.flowOrder.length}
-            flowLabel={progress.flowLabel(progress.selectedNodeId)}
-            currentNodeId={progress.currentNodeId}
-            isReviewing={progress.isReviewing}
-            canGoPrev={progress.canGoPrev}
-            canGoNext={!progress.isChapterEnd || progress.isReviewing}
-            onPrev={progress.goPrev}
-            onNext={() => {
-              if (progress.isChapterEnd && !progress.isReviewing) {
-                progress.goNext();
-                const idx = manifest.chapters.findIndex((c) => c.id === chapter.id);
-                const nextChapter = manifest.chapters[idx + 1];
-                if (nextChapter) {
-                  window.location.href = `/guide/${nextChapter.id}`;
-                }
-                return;
-              }
+      <aside className="guide-right guide-box relative shrink-0" style={{ width: rightWidth }}>
+        <button
+          type="button"
+          className="guide-resize-handle"
+          onMouseDown={startRightResize}
+          aria-label="调整右侧面板宽度"
+        />
+        <NodeDetail
+          node={selectedNode}
+          flowIndex={progress.flowIndex}
+          flowTotal={progress.flowOrder.length}
+          flowLabel={progress.flowLabel(progress.selectedNodeId)}
+          currentNodeId={progress.currentNodeId}
+          isReviewing={progress.isReviewing}
+          canGoPrev={progress.canGoPrev}
+          canGoNext={!progress.isChapterEnd || progress.isReviewing}
+          onPrev={progress.goPrev}
+          onNext={() => {
+            if (progress.isChapterEnd && !progress.isReviewing) {
               progress.goNext();
-            }}
-            onSetAsCurrent={() => progress.setAsCurrent(progress.selectedNodeId)}
-            onReturnToCurrent={progress.returnToCurrent}
-          />
-        </aside>
-      </div>
+              const idx = manifest.chapters.findIndex((c) => c.id === chapter.id);
+              const nextChapter = manifest.chapters[idx + 1];
+              if (nextChapter) {
+                window.location.href = `/guide/${nextChapter.id}`;
+              }
+              return;
+            }
+            progress.goNext();
+          }}
+          onSetAsCurrent={() => progress.setAsCurrent(progress.selectedNodeId)}
+          onReturnToCurrent={progress.returnToCurrent}
+        />
+      </aside>
     </div>
   );
 }

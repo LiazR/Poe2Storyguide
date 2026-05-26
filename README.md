@@ -1,6 +1,34 @@
-# Poe2Storyguide · 流放之路2 剧情流程辅助
+# Poe2Storyguide
 
-MVP 静态站：左章节 · 中地图（截图 + 标记点）· 右攻略详情。
+一个面向《Path of Exile 2 / 流放之路 2》的剧情流程辅助站点，提供章节地图、流程节点、任务提示、奖励标记和节点详情，帮助玩家在跑剧情时快速确认下一步要去哪里、要拿什么奖励、哪些内容可以跳过。
+
+## 项目亮点
+
+- **章节化攻略**：已支持 Act 1 ~ Act 4，每章独立维护 JSON 内容。
+- **地图节点导航**：在章节地图上展示任务节点，支持点击节点查看详细攻略。
+- **流程推进**：支持下一步、上一步、设为当前节点，自动记录已完成进度。
+- **右侧详情面板**：展示节点说明、分步攻略、奖励 badge、攻略图片。
+- **图片查看器**：节点图片支持点击放大、拖拽移动和缩放查看。
+- **移动端交互**：地图支持触摸拖动，适合手机/平板查看。
+- **内容数据分离**：攻略内容由 `content/` 下 JSON 驱动，方便持续补充和维护。
+
+## 预览
+
+项目运行后可访问：
+
+- 首页：`http://localhost:5173/`
+- 攻略页：`http://localhost:5173/guide/act1`
+- 坐标调试：`http://localhost:5173/guide/act1?debug=1`
+
+坐标调试模式下点击地图，会在控制台输出当前点击位置的 `x / y` 百分比坐标，便于维护节点位置。
+
+## 技术栈
+
+- [Vite](https://vite.dev/)：前端构建工具
+- [React](https://react.dev/)：页面与组件开发
+- [TypeScript](https://www.typescriptlang.org/)：类型约束
+- [Tailwind CSS 4](https://tailwindcss.com/)：样式系统
+- [React Router](https://reactrouter.com/)：路由管理
 
 ## 快速开始
 
@@ -9,44 +37,121 @@ npm install
 npm run dev
 ```
 
-- 首页：http://localhost:5173/
-- 引导页：http://localhost:5173/guide/act1
-- **调试坐标**：http://localhost:5173/guide/act1?debug=1 → 点击地图，控制台输出 `x, y`
+`npm run dev` 会启动内容同步监听，将 `content/` 中的攻略 JSON 同步到 `public/content/`。
 
-### 改完怎么看效果？（不用重启 dev）
+如果需要单独启动 Vite：
 
-| 改了什么 | 操作 |
-|----------|------|
-| `content/` 里 JSON | 保存 → **F5 刷新**（dev 自动 sync） |
-| `public/maps/` 里 PNG | 保存 → **F5 刷新** |
-| `src/` 里代码 | 保存 → 浏览器**自动更新** |
+```bash
+npm run dev:vite
+```
 
-## 文档
+## 常用脚本
 
-| 文件 | 说明 |
+| 命令 | 说明 |
 |------|------|
-| [docs/PRD.md](docs/PRD.md) | 产品需求 |
-| [docs/页面交互方案.md](docs/页面交互方案.md) | 交互流程 |
-| [docs/TECH.md](docs/TECH.md) | 技术方案 |
+| `npm run dev` | 监听并同步攻略内容到 `public/content/` |
+| `npm run dev:vite` | 启动 Vite 开发服务器 |
+| `npm run content:sync` | 手动同步 `content/` 到 `public/content/` |
+| `npm run build` | 构建生产版本 |
+| `npm run preview` | 本地预览生产构建 |
 
-## 如何添加内容（手动）
+## 内容结构
 
-**详细图文说明见 → [docs/内容填写指南.md](docs/内容填写指南.md)**
+```text
+content/
+  manifest.json              # 章节入口配置
+  chapters/
+    act1.json                # 第一章攻略内容
+    act2.json                # 第二章攻略内容
+    act3.json                # 第三章攻略内容
+    act4.json                # 第四章攻略内容
 
-| 操作 | 位置 |
+public/
+  maps/                      # 章节地图图片
+  InfoMap/                   # 节点详情图片
+  content/                   # 同步后的运行时内容
+
+src/
+  components/                # 页面组件
+  data/                      # 内容加载逻辑
+  hooks/                     # 进度状态逻辑
+  pages/                     # 页面入口
+  types/                     # 内容类型定义
+```
+
+## 攻略 JSON 示例
+
+每个节点使用统一的数据结构：
+
+```json
+{
+  "id": "node_1",
+  "mapId": "act1",
+  "x": 15,
+  "y": 69,
+  "title": "河岸",
+  "mapTitle": "河岸",
+  "description": "右侧详情说明，可使用\\n分段。",
+  "next": "node_2",
+  "hint": "鼠标悬浮节点时显示的提示",
+  "badge": { "text": "+2天赋", "type": "skill" },
+  "steps": [
+    { "title": "步骤一", "body": "步骤说明" }
+  ],
+  "images": [
+    { "url": "/InfoMap/Act1_Node1.png" }
+  ]
+}
+```
+
+字段说明：
+
+| 字段 | 说明 |
 |------|------|
-| 改节点、坐标、名称 | `content/chapters/act1.json` |
-| 放 PNG 地图 | `public/maps/你的图.png` |
-| 引用地图 | JSON 里 `"image": "/maps/你的图.png"` |
-| 取坐标 | `/guide/act1?debug=1` 点击地图看控制台 |
+| `id` | 节点唯一 ID，章节内通常使用 `node_1`、`node_2` |
+| `mapId` | 所属地图 ID，应与章节地图配置一致 |
+| `x` / `y` | 节点在地图上的百分比坐标 |
+| `title` | 右侧详情完整标题 |
+| `mapTitle` | 地图节点短标题 |
+| `description` | 右侧详情说明，支持 `\n` 分段 |
+| `next` | 下一个节点 ID，最后一个节点为 `null` |
+| `hint` | 节点悬浮提示 |
+| `badge` | 可选奖励标记，仅在有奖励时填写 |
+| `steps` | 可选分步攻略，适合复杂节点 |
+| `images` | 可选节点图片，点击可放大查看 |
 
-改完务必：`npm run content:sync`（若 `npm run dev` 已在跑，**保存 JSON 后会自动 sync，只需 F5 刷新**）
+更详细的内容编写说明见 [docs/内容填写指南.md](docs/内容填写指南.md)。
 
-## 进度规则（已实现）
+## 如何添加新章节
 
-- **下一步**：当前节点记入已完成，指针 +1
-- **上一步**：指针 -1，**不**自动取消后面节点的已完成
-- **设为我的当前节点**：指针对齐该节点，**之前节点全部标为已完成**
+1. 在 `content/chapters/` 下新增章节 JSON，例如 `act5.json`。
+2. 在 `content/manifest.json` 中注册章节：
+
+```json
+{ "id": "act5", "title": "Act 5", "file": "/content/chapters/act5.json" }
+```
+
+3. 将地图图片放入 `public/maps/`，并在章节 JSON 中引用：
+
+```json
+"image": "/maps/act5.png"
+```
+
+4. 同步内容：
+
+```bash
+npm run content:sync
+```
+
+## 坐标维护
+
+访问调试地址：
+
+```text
+http://localhost:5173/guide/act1?debug=1
+```
+
+点击地图后，浏览器控制台会输出当前位置坐标。将输出的 `x`、`y` 写入对应节点即可。
 
 ## 构建部署
 
@@ -54,21 +159,27 @@ npm run dev
 npm run build
 ```
 
-将 `dist/` 部署到任意静态托管；确保 `content/` 与 `maps/` 一并出现在输出目录（Vite 会把 `public/` 与需放在 `public/content` 的 JSON 处理——见下）。
+构建产物位于 `dist/`，可部署到任意静态托管服务，例如 GitHub Pages、Vercel、Netlify 或自己的静态服务器。
 
-### 内容文件位置
+部署前建议确认：
 
-开发时 JSON 在仓库根目录 `content/`。部署前请将 `content` 复制到 `public/content`，或把 `content` 挪到 `public/content` 下维护（与 `fetch('/content/...')` 路径一致）。当前 mock 已通过 Vite 需放在 public：
+- 已执行 `npm run content:sync`
+- `public/content/` 中存在最新章节 JSON
+- `public/maps/` 中存在章节地图图片
+- `public/InfoMap/` 中存在节点详情图片
 
-**推荐**：把整个 `content` 文件夹放在 `public/content/` 下。
+## 当前进度
 
-若 `npm run dev` 无法加载章节，执行：
+- Act 1：已完成主流程内容与部分节点图片
+- Act 2：已完成主流程内容与部分节点图片
+- Act 3：已完成主流程内容与部分节点图片
+- Act 4：已完成主流程内容
+- 后续计划：继续优化 UI、补充图片资源、完善更多章节内容
 
-```bash
-# Windows PowerShell
-Copy-Item -Recurse -Force content public/content
-```
+## 免责声明
 
-## 技术栈
+本项目为玩家自用/学习性质的非官方攻略工具，与 Grinding Gear Games 或 Path of Exile 官方无关联。游戏内容、地图、名称与相关素材版权归其原始权利方所有。
 
-Vite · React · TypeScript · Tailwind CSS 4 · react-router-dom
+## License
+
+如需公开发布，建议根据实际素材授权情况补充合适的开源协议。当前仓库中的游戏截图与素材请在确认版权和使用范围后再进行分发。
