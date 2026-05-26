@@ -1,3 +1,4 @@
+import { assetUrl } from "@/data/loadContent";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Chapter, StoryNode } from "@/types/content";
 
@@ -244,7 +245,7 @@ export function MapCanvas({
         >
           <div className="relative inline-block w-full max-w-[960px]">
             <img
-              src={map.image}
+              src={assetUrl(map.image)}
               alt={map.title}
               className="map-bg block h-auto w-full select-none"
               draggable={false}
@@ -252,7 +253,7 @@ export function MapCanvas({
                 const img = e.currentTarget;
                 if (!img.dataset.fallback) {
                   img.dataset.fallback = "1";
-                  img.src = "/maps/act1.png";
+                  img.src = assetUrl("/maps/act1.png");
                 }
               }}
             />

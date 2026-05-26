@@ -1,3 +1,4 @@
+import { assetUrl } from "@/data/loadContent";
 import { createPortal } from "react-dom";
 import { useCallback, useRef, useState } from "react";
 import type { StoryNode } from "@/types/content";
@@ -66,7 +67,7 @@ export function NodeDetail({
 
         {node.coverImage && (
           <img
-            src={node.coverImage}
+            src={assetUrl(node.coverImage)}
             alt=""
             className="mt-4 w-full rounded-lg border border-[var(--border)]"
           />
@@ -83,9 +84,9 @@ export function NodeDetail({
                 key={img.url}
                 type="button"
                 className="detail-image-card block cursor-zoom-in overflow-hidden rounded-xl"
-                onClick={() => setLightbox(img.url)}
+                onClick={() => setLightbox(assetUrl(img.url))}
               >
-                <img src={img.url} alt={img.caption ?? ""} className="w-full" />
+                <img src={assetUrl(img.url)} alt={img.caption ?? ""} className="w-full" />
                 {img.caption && (
                   <p className="px-2 py-1 text-xs text-[var(--muted)]">{img.caption}</p>
                 )}
@@ -104,7 +105,7 @@ export function NodeDetail({
                 {step.body && <p className="mt-1 text-[var(--muted)]">{step.body}</p>}
                 {step.image && (
                   <img
-                    src={step.image}
+                    src={assetUrl(step.image)}
                     alt=""
                     className="mt-2 max-w-full rounded border border-[var(--border)]"
                   />

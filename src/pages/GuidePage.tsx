@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { ChapterNav } from "@/components/ChapterNav";
 import { MapCanvas } from "@/components/MapCanvas";
 import { NodeDetail } from "@/components/NodeDetail";
@@ -13,6 +13,7 @@ const DEFAULT_RIGHT_WIDTH = 380;
 
 export function GuidePage() {
   const { chapterId } = useParams<{ chapterId: string }>();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const debug = searchParams.get("debug") === "1";
 
@@ -131,7 +132,7 @@ export function GuidePage() {
           getStatus={progress.getNodeStatus}
           collapsed={leftCollapsed}
           onSelectChapter={(id) => {
-            window.location.href = `/guide/${id}`;
+            navigate(`/guide/${id}`);
           }}
           onSelectNode={progress.selectNode}
         />
@@ -172,7 +173,7 @@ export function GuidePage() {
               const idx = manifest.chapters.findIndex((c) => c.id === chapter.id);
               const nextChapter = manifest.chapters[idx + 1];
               if (nextChapter) {
-                window.location.href = `/guide/${nextChapter.id}`;
+                navigate(`/guide/${nextChapter.id}`);
               }
               return;
             }

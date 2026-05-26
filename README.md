@@ -11,22 +11,19 @@
 - **图片查看器**：节点图片支持点击放大、拖拽移动和缩放查看。
 - **移动端交互**：地图支持触摸拖动，适合手机/平板查看。
 - **内容数据分离**：攻略内容由 `content/` 下 JSON 驱动，方便持续补充和维护。
- 
+
 ## 预览
 
-推荐使用 GitHub Pages 发布在线版本，其他人打开仓库首页即可通过 Pages 链接访问。
+项目支持两种查看方式：
 
-发布后的访问地址通常是：
+- 在线访问：部署到 GitHub Pages 后直接打开网页。
+- 离线查看：下载构建后的 `dist/` 文件夹，双击 `dist/index.html` 即可打开。
 
-```text
-https://你的GitHub用户名.github.io/Poe2Storyguide/
-```
-
-本地运行后可访问：
+本地开发运行后可访问：
 
 - 首页：`http://localhost:5173/`
-- 攻略页：`http://localhost:5173/guide/act1`
-- 坐标调试：`http://localhost:5173/guide/act1?debug=1`
+- 攻略页：`http://localhost:5173/#/guide/act1`
+- 坐标调试：`http://localhost:5173/#/guide/act1?debug=1`
 
 坐标调试模式下点击地图，会在控制台输出当前点击位置的 `x / y` 百分比坐标，便于维护节点位置。
 
@@ -139,17 +136,31 @@ src/
 { "id": "act5", "title": "Act 5", "file": "/content/chapters/act5.json" }
 ```
 
-3. 将地图图片放入 `public/maps/`，并在章节 JSON 中引用：
+3. 在 [src/data/loadContent.ts](src/data/loadContent.ts) 中导入并注册新章节：
+
+```ts
+import act5 from "../../content/chapters/act5.json";
+```
+
+```ts
+const chapters: Record<string, Chapter> = {
+  "/content/chapters/act5.json": act5 as Chapter,
+};
+```
+
+4. 将地图图片放入 `public/maps/`，并在章节 JSON 中引用：
 
 ```json
 "image": "/maps/act5.png"
 ```
 
-4. 同步内容：
+5. 重新构建：
 
 ```bash
-npm run content:sync
+npm run build
 ```
+
+注意：当前项目为了支持离线双击打开，章节 JSON 会被打包进 JS。新增章节时，只改 `manifest.json` 不够，必须同时在 `loadContent.ts` 中添加 import 和映射。
 
 ## 坐标维护
 
@@ -161,32 +172,29 @@ http://localhost:5173/guide/act1?debug=1
 
 点击地图后，浏览器控制台会输出当前位置坐标。将输出的 `x`、`y` 写入对应节点即可。
 
-## GitHub Pages 在线发布
+## 离线分发
 
-本仓库已包含 GitHub Pages 自动部署配置：
+项目已经适配离线直接打开模式：
 
-```text
-.github/workflows/deploy-pages.yml
+```bash
+npm run build
 ```
 
-使用方式：
+构建完成后，将整个 `dist/` 文件夹压缩发给别人。对方解压后双击：
 
-1. 将代码推送到 GitHub 的 `main` 或 `master` 分支。
-2. 打开 GitHub 仓库页面，进入 `Settings` → `Pages`。
-3. 在 `Build and deployment` 中选择 `Source: GitHub Actions`。
-4. 回到 `Actions` 页面，等待 `Deploy to GitHub Pages` 工作流执行完成。
-5. 部署完成后，GitHub 会显示在线访问地址。
+```text
+dist/index.html
+```
 
-之后每次 push 到 `main` / `master`，都会自动同步内容、构建并重新发布。
+即可打开首页，不需要安装 Node.js，也不需要运行命令。
 
-## 下载后直接打开
+注意事项：
 
-这是一个 Vite + React 单页应用，源码不能像普通 HTML 一样直接双击 `index.html` 运行。推荐两种方式：
-
-- **在线查看**：使用 GitHub Pages，最适合分享给别人。
-- **离线分发**：执行 `npm run build` 后，把 `dist/` 文件夹压缩发给别人；对方需要用任意静态服务器打开，例如 VS Code Live Server、`npx serve dist` 或其他本地 HTTP 服务。
-
-不推荐直接双击 `dist/index.html`，因为浏览器的 `file://` 协议可能会阻止 JSON 内容加载。
+- 不要只发送 `index.html`，必须发送完整的 `dist/` 文件夹。
+- `dist/maps/`、`dist/InfoMap/` 等图片目录都必须保留。
+- `dist/assets/` 会保留构建产生的原始文件，但离线入口已将 JS/CSS 内联进 `index.html`，双击打开时不会再请求这些外部 JS/CSS。
+- 离线版本使用 Hash 路由，章节地址形如 `index.html#/guide/act1`。
+- 修改 `content/chapters/*.json`、地图或图片后，需要重新执行 `npm run build`，再重新分发新的 `dist/`。
 
 ## 构建部署
 
@@ -194,14 +202,15 @@ http://localhost:5173/guide/act1?debug=1
 npm run build
 ```
 
-构建产物位于 `dist/`，可部署到任意静态托管服务，例如 GitHub Pages、Vercel、Netlify 或自己的静态服务器。
+构建产物位于 `dist/`，可部署到任意静态托管服务，例如 GitHub Pages、Vercel、Netlify 或自己的静态服务器，也可以压缩后作为离线版本分发。
 
 部署前建议确认：
 
-- 已执行 `npm run content:sync`
-- `public/content/` 中存在最新章节 JSON
-- `public/maps/` 中存在章节地图图片
-- `public/InfoMap/` 中存在节点详情图片
+- 已执行 `npm run build`
+- `dist/index.html` 已生成，并且构建日志出现 `[offline] inlined assets into dist/index.html`
+- `dist/maps/` 中存在章节地图图片
+- `dist/InfoMap/` 中存在节点详情图片
+- 在线版本同样使用 Hash 路由，例如 `https://用户名.github.io/Poe2Storyguide/#/guide/act1`
 
 ## 当前进度
 
