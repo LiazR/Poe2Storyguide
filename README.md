@@ -14,10 +14,12 @@
 
 ## 预览
 
+在线链接：https://liazr.github.io/Poe2Storyguide/
+
 项目支持两种查看方式：
 
 - 在线访问：部署到 GitHub Pages 后直接打开网页。
-- 离线查看：下载构建后的 `dist/` 文件夹，双击 `dist/index.html` 即可打开。
+- 离线查看：下载 Releases 里的压缩包，解压后打开 `index.html` 即可查看。
 
 本地开发运行后可访问：
 
