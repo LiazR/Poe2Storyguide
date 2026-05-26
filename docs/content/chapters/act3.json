@@ -1,0 +1,331 @@
+{
+  "id": "act3",
+  "title": "Act 3",
+  "flowOrder": [
+    "node_1",
+    "node_2",
+    "node_3",
+    "node_4",
+    "node_5",
+    "node_6",
+    "node_7",
+    "node_8",
+    "node_9",
+    "node_10",
+    "node_11",
+    "node_12",
+    "node_13",
+    "node_14",
+    "node_15",
+    "node_16",
+    "node_17",
+    "node_18"
+  ],
+  "maps": [
+    {
+      "id": "act3",
+      "title": "瓦爾文明遺跡",
+      "image": "/maps/act3.png"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node_1",
+      "mapId": "act3",
+      "x": 25.6, 
+      "y": 74.6,
+      "title": "風沙沼澤",
+      "mapTitle": "風沙沼澤",
+      "description": "找到营地欧洛克營火，击败BOOS打开箱子获得工匠石。\n然后进入高地神塔營地。",
+      "next": "node_2",
+      "hint": "找欧洛克營火击败Boss",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node1.png"
+        }
+      ]
+    },
+    {
+      "id": "node_2",
+      "mapId": "act3",
+      "x": 50.9, 
+      "y": 65.3,
+      "title": "高地神塔營地",
+      "mapTitle": "高地神塔營地",
+      "description": "回城后记得在商店更新装备，如果有需要记得替换。",
+      "next": "node_3",
+      "hint": "更新装备后出发"
+    },
+    {
+      "id": "node_3",
+      "mapId": "act3",
+      "x": 37.9, 
+      "y": 49,
+      "title": "叢林遺跡",
+      "mapTitle": "叢林遺跡",
+      "description": "这张地图有三个点，没有先后顺序，先碰到哪个打哪个。\n第1点：击败大猩猩，获得两点技能天赋点。\n第2点：进入劇毒墓穴获得永久buff。\n第3点：找到庫阿姆的屍體，送稀有腰带。",
+      "next": "node_4",
+      "hint": "先碰到哪个打哪个",
+      "badge": { "text": "+2天赋", "type": "skill" },
+      "steps": [
+        { "title": "击败大猩猩", "body": "获得两点技能天赋点" },
+        { "title": "进入劇毒墓穴", "body": "可选，获得永久buff" },
+        { "title": "找到庫阿姆的屍體", "body": "送稀有腰带" }
+      ],
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node3.png"
+        }
+      ]
+    },
+    {
+      "id": "node_4",
+      "mapId": "act3",
+      "x": 27.3, 
+      "y": 49.7,
+      "title": "劇毒墓穴",
+      "mapTitle": "劇毒墓穴",
+      "description": "（可选）劇毒墓穴里有个任务道具，拿到后回城选择永久增益。",
+      "next": "node_5",
+      "hint": "获取任务道具，回城选永久增益",
+      "badge": { "text": "永久增益", "type": "loot" }
+    },
+    {
+      "id": "node_5",
+      "mapId": "act3",
+      "x": 39.2, 
+      "y": 37.6,
+      "title": "感染荒地",
+      "mapTitle": "感染荒地",
+      "description": "跑图踩点，贴着边走。\n跑图过程中如果看到龍蜥濕地，进去踩初始点再回来。\n继续跑图找到阿札克泥沼。",
+      "next": "node_6",
+      "hint": "贴边走跑图踩点",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node5.png"
+        }
+      ]
+    },
+    {
+      "id": "node_6",
+      "mapId": "act3",
+      "x": 49.3, 
+      "y": 27,
+      "title": "阿札克泥沼",
+      "mapTitle": "阿札克泥沼",
+      "description": "击败BOOS沼泽女巫获得+30精魂。\n沼泽女巫boss房刷新随机性高，跑图时多注意。",
+      "next": "node_7",
+      "hint": "击败沼泽女巫",
+      "badge": { "text": "+30精魂", "type": "skill" },
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node6.png"
+        }
+      ]
+    },
+    {
+      "id": "node_7",
+      "mapId": "act3",
+      "x": 24.4, 
+      "y": 38.1,
+      "title": "龍蜥濕地",
+      "mapTitle": "龍蜥濕地",
+      "description": "跑到最后打败boss，获得混沌试炼门票。\n去混沌试炼踩点后前往吉卡尼的機械迷城。",
+      "next": "node_8",
+      "hint": "击败Boss拿混沌门票",
+      "badge": { "text": "升华2", "type": "danger" },
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node7.png"
+        }
+      ]
+    },
+    {
+      "id": "node_8",
+      "mapId": "act3",
+      "x": 11.8, 
+      "y": 33.5,
+      "title": "混沌神殿",
+      "mapTitle": "混沌神殿",
+      "description": "升华2试炼，看自己情况打不打。",
+      "next": "node_9",
+      "hint": "升华2，看情况打"
+    },
+    {
+      "id": "node_9",
+      "mapId": "act3",
+      "x": 22.9, 
+      "y": 29.9,
+      "title": "吉卡尼的機械迷城",
+      "mapTitle": "吉卡尼的機械迷城",
+      "description": "地图左右两边找到1个小灵核放入石碑开门。\n再找1个小灵核，在地图边缘找到boss黑鳄房间放入石碑开门击杀获取10%火焰抗性。\n再找1个小灵核放入石碑，进入吉卡尼的聖域。",
+      "next": "node_10",
+      "hint": "收集小灵核开门",
+      "badge": { "text": "+10%火焰抗性", "type": "loot" },
+      "steps": [
+        { "title": "第1个小灵核", "body": "地图左右两边找到小灵核放入石碑开门" },
+        { "title": "第2个小灵核", "body": "地图边缘找boss黑鳄房间，放入石碑开门击杀获取+10%火焰抗性" },
+        { "title": "第3个小灵核", "body": "放入石碑，进入吉卡尼的聖域" }
+      ],
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node9.png"
+        }
+      ]
+    },
+    {
+      "id": "node_10",
+      "mapId": "act3",
+      "x": 20.7, 
+      "y": 24.7,
+      "title": "吉卡尼的聖域",
+      "mapTitle": "吉卡尼的聖域",
+      "description": "激活传送点和记录点，找到两台发动机的记录点激活。\n探明记录点附近黑暗区域，按ESC在记录点重新刷新中灵核位置直到地图上显示。\n遇到大型魂灵核心不显示的情况跑远点再跑回来。\n拾取2个中灵核插入2个发电机，回到传送点门口和阿尔瓦对话。\n点击大型灵魂核心击杀boss，传送到感染荒地。\n用任务物品大型核心插入感染荒地石阵祭坛中间，进入瑪特蘭水道。",
+      "next": "node_11",
+      "hint": "找中灵核插发电机，对话阿尔瓦",
+      "steps": [
+        { "title": "激活记录点", "body": "激活传送点和两台发动机记录点" },
+        { "title": "探明黑暗区域", "body": "按ESC刷新中灵核位置直到显示" },
+        { "title": "插入中灵核", "body": "拾取2个中灵核插入2个发电机" },
+        { "title": "对话阿尔瓦", "body": "回到传送点门口和阿尔瓦对话" },
+        { "title": "击杀boss", "body": "点击大型灵魂核心击杀boss" },
+        { "title": "进入瑪特蘭水道", "body": "传送到感染荒地，将大型核心插入石阵祭坛" }
+      ],
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node10.png"
+        }
+      ]
+    },
+    {
+      "id": "node_11",
+      "mapId": "act3",
+      "x": 54.9, 
+      "y": 41.6,
+      "title": "瑪特蘭水道",
+      "mapTitle": "瑪特蘭水道",
+      "description": "直接杀怪跑图开启机关，最后拉闸完成。\n回城交任务，进入淹没之城。",
+      "next": "node_12",
+      "hint": "杀怪开机关，最后拉闸",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node11.png"
+        }
+      ]
+    },
+    {
+      "id": "node_12",
+      "mapId": "act3",
+      "x": 56.1, 
+      "y": 81.5,
+      "title": "淹没之城",
+      "mapTitle": "淹没之城",
+      "description": "先把两个记录点踩好，这两个节点不分先后。\n举例：如果第1个节点是污秽顶峰，第2个是熔岩宝库，那我们就先打熔岩宝库，反之亦然。",
+      "next": "node_13",
+      "hint": "先踩两个记录点，不分先后",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node12.png"
+        }
+      ]
+    },
+    {
+      "id": "node_13",
+      "mapId": "act3",
+      "x": 59.7, 
+      "y": 60.9,
+      "title": "熔岩寶庫",
+      "mapTitle": "熔岩寶庫",
+      "description": "击败BOOS完成重铸台开启任务。",
+      "next": "node_14",
+      "hint": "击败Boss解锁重铸台",
+      "badge": { "text": "解锁重铸台", "type": "loot" }
+    },
+    {
+      "id": "node_14",
+      "mapId": "act3",
+      "x": 70.8, 
+      "y": 59.2,
+      "title": "污垢頂峰",
+      "mapTitle": "污垢頂峰",
+      "description": "击败boss，期间刷图碰到的蘑菇任务不用做。\n击败boss后传送到淹没之城，开启门进入科佩克神廟。",
+      "next": "node_15",
+      "hint": "击败Boss，蘑菇任务不用做",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node14.png"
+        }
+      ]
+    },
+    {
+      "id": "node_15",
+      "mapId": "act3",
+      "x": 51.2, 
+      "y": 78.3,
+      "title": "科佩克神廟",
+      "mapTitle": "科佩克神廟",
+      "description": "随机性高，门一般在地图的三个角。\n找到门后下三层找到boss房干掉他。\n打完boss后跟npc对话，不用等他，直接传送回城。\n可在城内进入传送门回到过去。",
+      "next": "node_16",
+      "hint": "门在地图三个角，下三层找Boss",
+      "steps": [
+        { "title": "寻找入口", "body": "门一般在地图的三个角，随便跑" },
+        { "title": "下三层", "body": "找到门后下三层找到boss房" },
+        { "title": "击杀Boss", "body": "干掉后跟npc对话，不用等他直接传送回城" }
+      ]
+    },
+    {
+      "id": "node_16",
+      "mapId": "act3",
+      "x": 59.9, 
+      "y": 86,
+      "title": "奥札爾",
+      "mapTitle": "奥札爾（过去）",
+      "description": "地图边缘石板路一直走，击杀boss蛇女。\n往后面走进入阿戈拉。\n这个图和阿戈拉都可以爆奉献之核，建议在阿戈拉刷。",
+      "next": "node_17",
+      "hint": "沿石板路走，击杀蛇女",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node16.png"
+        }
+      ]
+    },
+    {
+      "id": "node_17",
+      "mapId": "act3",
+      "x": 75.3, 
+      "y": 56.9,
+      "title": "阿戈拉",
+      "mapTitle": "阿戈拉（过去）",
+      "description": "任务：找到献祭匕首的祭台，刺穿牺牲之血，找到2点天赋。\n跑图找到漆黑密室。",
+      "next": "node_18",
+      "hint": "找到祭台获取2点天赋",
+      "badge": { "text": "+2天赋", "type": "skill" },
+      "steps": [
+        { "title": "寻找祭台", "body": "找到献祭匕首的祭台" },
+        { "title": "刺穿牺牲之血", "body": "刺穿牺牲之血，获得2点天赋" },
+        { "title": "前往漆黑密室", "body": "跑图找到漆黑密室" }
+      ],
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node17.png"
+        }
+      ]
+    },
+    {
+      "id": "node_18",
+      "mapId": "act3",
+      "x": 73.1, 
+      "y": 73.7,
+      "title": "漆黑密室",
+      "mapTitle": "漆黑密室（过去）",
+      "description": "击败BOOS，回城交任务，进入下一章。",
+      "next": null,
+      "hint": "击败Boss完成第三章",
+      "images": [
+        {
+          "url": "/InfoMap/Act3_Node18.png"
+        }
+      ]
+    }
+  ]
+}

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node scripts/sync-content.mjs --watch",
     "dev:vite": "vite",
-    "build": "vite build",
+    "build": "npm run content:sync && vite build",
     "preview": "vite preview",
     "content:sync": "node scripts/sync-content.mjs"
   },
