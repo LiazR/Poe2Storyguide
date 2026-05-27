@@ -36,6 +36,10 @@ export interface StoryNode {
   x: number;
   y: number;
   title: string;
+  names?: {
+    international: string;
+    chinese: string;
+  };
   description: string;
   /** 下一节点 id；章末为 null */
   next: string | null;

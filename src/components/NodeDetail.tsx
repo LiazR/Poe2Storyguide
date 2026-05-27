@@ -1,4 +1,5 @@
 import { assetUrl } from "@/data/loadContent";
+import { getNodeDisplayName, type NameLocale } from "@/data/nodeNames";
 import { createPortal } from "react-dom";
 import { useCallback, useRef, useState } from "react";
 import type { StoryNode } from "@/types/content";
@@ -16,6 +17,8 @@ interface NodeDetailProps {
   onNext: () => void;
   onSetAsCurrent: () => void;
   onReturnToCurrent: () => void;
+  chapterId: string;
+  nameLocale: NameLocale;
 }
 
 export function NodeDetail({
@@ -31,6 +34,8 @@ export function NodeDetail({
   onNext,
   onSetAsCurrent,
   onReturnToCurrent,
+  chapterId,
+  nameLocale,
 }: NodeDetailProps) {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [lbZoom, setLbZoom] = useState(1);
@@ -48,6 +53,8 @@ export function NodeDetail({
       <div className="p-4 text-[var(--muted)]">请从地图或左侧列表选择节点</div>
     );
   }
+
+  const displayTitle = getNodeDisplayName(chapterId, node.id, node.title, nameLocale);
 
   return (
     <div className="flex h-full flex-col">
@@ -74,7 +81,7 @@ export function NodeDetail({
         )}
 
         <h1 className="mt-4 text-xl font-semibold">
-          <span className="text-[var(--accent)]">{flowLabel}.</span> {node.title}
+          <span className="text-[var(--accent)]">{flowLabel}.</span> {displayTitle}
         </h1>
 
         {node.images && node.images.length > 0 && (

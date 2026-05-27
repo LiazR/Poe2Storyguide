@@ -1,3 +1,4 @@
+import { getNodeDisplayName, type NameLocale } from "@/data/nodeNames";
 import type { Chapter } from "@/types/content";
 import type { ManifestChapter } from "@/types/content";
 
@@ -9,6 +10,7 @@ interface ChapterNavProps {
   currentNodeId: string;
   flowLabel: (nodeId: string) => number;
   getStatus: (nodeId: string) => "completed" | "current" | "upcoming";
+  nameLocale: NameLocale;
   collapsed?: boolean;
   onSelectChapter: (id: string) => void;
   onSelectNode: (nodeId: string) => void;
@@ -22,12 +24,13 @@ export function ChapterNav({
   currentNodeId,
   flowLabel,
   getStatus,
+  nameLocale,
   collapsed = false,
   onSelectChapter,
   onSelectNode,
 }: ChapterNavProps) {
   return (
-    <nav className={`flex h-full flex-col text-sm ${collapsed ? "collapsed" : ""}`}>
+    <nav className={`flex min-h-0 flex-1 flex-col text-sm ${collapsed ? "collapsed" : ""}`}>
       <div className="chapter-nav-section px-3 py-3">
         {!collapsed && (
           <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
@@ -52,18 +55,19 @@ export function ChapterNav({
         </ul>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3 pb-6">
         {!collapsed && (
           <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
             主线流程
           </h2>
         )}
-        <ul className={`mt-2 space-y-0.5 ${collapsed ? "mt-0" : ""}`}>
+        <ul className={`mt-2 space-y-0.5 pb-2 ${collapsed ? "mt-0" : ""}`}>
           {chapter.flowOrder.map((nodeId) => {
             const node = chapter.nodes.find((n) => n.id === nodeId);
             if (!node) return null;
             const status = getStatus(nodeId);
             const num = flowLabel(nodeId);
+            const displayName = getNodeDisplayName(chapter.id, node.id, node.title, nameLocale);
             return (
               <li key={nodeId}>
                 <button
@@ -72,10 +76,10 @@ export function ChapterNav({
                     selectedNodeId === nodeId ? "selected" : ""
                   }`}
                   onClick={() => onSelectNode(nodeId)}
-                  title={collapsed ? node.title : undefined}
+                  title={collapsed ? displayName : undefined}
                 >
                   <span className="node-list-num">{num}</span>
-                  {!collapsed && <span className="min-w-0 flex-1 truncate">{node.title}</span>}
+                  {!collapsed && <span className="min-w-0 flex-1 truncate">{displayName}</span>}
                   {!collapsed && nodeId === currentNodeId && (
                     <span className="shrink-0 text-[10px] text-[var(--accent)]">当前</span>
                   )}

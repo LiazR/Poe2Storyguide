@@ -1,4 +1,5 @@
 import { assetUrl } from "@/data/loadContent";
+import { getNodeDisplayName, type NameLocale } from "@/data/nodeNames";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Chapter, StoryNode } from "@/types/content";
 
@@ -30,6 +31,8 @@ interface MapCanvasProps {
   getStatus: (nodeId: string) => "completed" | "current" | "upcoming";
   flowLabel: (nodeId: string) => number;
   onSelectNode: (nodeId: string) => void;
+  nameLocale: NameLocale;
+  onToggleNameLocale: () => void;
   debug?: boolean;
 }
 
@@ -40,6 +43,8 @@ export function MapCanvas({
   getStatus,
   flowLabel,
   onSelectNode,
+  nameLocale,
+  onToggleNameLocale,
   debug = false,
 }: MapCanvasProps) {
   const map = chapter.maps.find((m) => m.id === activeMapId);
@@ -224,6 +229,9 @@ export function MapCanvas({
         <span className="ml-2 hidden text-xs text-[var(--muted)] sm:inline">
           滚轮缩放 · 拖拽平移 · 本工具免费开源，请勿倒卖
         </span>
+        <button type="button" className="map-tool-btn ml-auto" onClick={onToggleNameLocale}>
+          {nameLocale === "international" ? "国际服名" : "国服名"}
+        </button>
         {debug && (
           <span className="ml-2 text-xs text-amber-400">
             调试：点击地图 → 红圈=点击点，圆点中心应对齐
@@ -285,6 +293,8 @@ export function MapCanvas({
                   status={getStatus(node.id)}
                   selected={node.id === selectedNodeId}
                   onSelect={() => onSelectNode(node.id)}
+                  nameLocale={nameLocale}
+                  chapterId={chapter.id}
                   debug={debug}
                 />
               ))}
@@ -302,6 +312,8 @@ function MapMarker({
   status,
   selected,
   onSelect,
+  nameLocale,
+  chapterId,
   debug,
 }: {
   node: StoryNode;
@@ -309,9 +321,11 @@ function MapMarker({
   status: "completed" | "current" | "upcoming";
   selected: boolean;
   onSelect: () => void;
+  nameLocale: NameLocale;
+  chapterId: string;
   debug?: boolean;
 }) {
-  const displayName = node.mapTitle ?? node.title;
+  const displayName = getNodeDisplayName(chapterId, node.id, node.mapTitle ?? node.title, nameLocale);
   const badgeType = node.badge?.type ?? "quest";
 
   return (

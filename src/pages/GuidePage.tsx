@@ -4,6 +4,7 @@ import { ChapterNav } from "@/components/ChapterNav";
 import { MapCanvas } from "@/components/MapCanvas";
 import { NodeDetail } from "@/components/NodeDetail";
 import { loadChapter, loadManifest } from "@/data/loadContent";
+import type { NameLocale } from "@/data/nodeNames";
 import { useGuideProgress } from "@/hooks/useGuideProgress";
 import type { Chapter, Manifest } from "@/types/content";
 
@@ -22,6 +23,7 @@ export function GuidePage() {
   const [error, setError] = useState<string | null>(null);
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightWidth, setRightWidth] = useState(DEFAULT_RIGHT_WIDTH);
+  const [nameLocale, setNameLocale] = useState<NameLocale>("international");
   const rightResizeRef = useRef<{ startX: number; startWidth: number } | null>(null);
   const rightResizeListenersRef = useRef<{ onMove: (ev: MouseEvent) => void; onUp: () => void } | null>(null);
 
@@ -56,6 +58,10 @@ export function GuidePage() {
   );
 
   const activeMapId = selectedNode?.mapId ?? chapter?.maps[0]?.id ?? "";
+
+  const toggleNameLocale = useCallback(() => {
+    setNameLocale((current) => (current === "international" ? "chinese" : "international"));
+  }, []);
 
   const cleanupRightResize = useCallback(() => {
     const listeners = rightResizeListenersRef.current;
@@ -103,7 +109,7 @@ export function GuidePage() {
 
   return (
     <div className="guide-layout flex h-dvh gap-3 p-3">
-      <aside className={`guide-left guide-box shrink-0 ${leftCollapsed ? "collapsed" : ""}`}>
+      <aside className={`guide-left guide-box flex min-h-0 shrink-0 flex-col ${leftCollapsed ? "collapsed" : ""}`}>
         <div className="guide-left-top flex items-center gap-2 px-3 py-3">
           <Link to="/" className="guide-home-link">
             ← 首页
@@ -130,6 +136,7 @@ export function GuidePage() {
           currentNodeId={progress.currentNodeId}
           flowLabel={progress.flowLabel}
           getStatus={progress.getNodeStatus}
+          nameLocale={nameLocale}
           collapsed={leftCollapsed}
           onSelectChapter={(id) => {
             navigate(`/guide/${id}`);
@@ -146,6 +153,8 @@ export function GuidePage() {
           getStatus={progress.getNodeStatus}
           flowLabel={progress.flowLabel}
           onSelectNode={progress.selectNode}
+          nameLocale={nameLocale}
+          onToggleNameLocale={toggleNameLocale}
           debug={debug}
         />
       </main>
@@ -181,6 +190,8 @@ export function GuidePage() {
           }}
           onSetAsCurrent={() => progress.setAsCurrent(progress.selectedNodeId)}
           onReturnToCurrent={progress.returnToCurrent}
+          chapterId={chapter.id}
+          nameLocale={nameLocale}
         />
       </aside>
     </div>
