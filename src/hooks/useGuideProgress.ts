@@ -1,22 +1,118 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { Chapter, GuideProgress } from "@/types/content";
+import type { Chapter } from "@/types/content";
 
 const STORAGE_KEY = "poe2storyguide_progress";
 
-function loadStored(chapterId: string, version: string): GuideProgress | null {
+export interface ChapterProgressEntry {
+  flowIndex: number;
+  flowTotal: number;
+  selectedNodeId: string;
+  completedNodeIds: string[];
+}
+
+interface ProgressStore {
+  contentVersion: string;
+  lastChapterId?: string;
+  chapters: Record<string, ChapterProgressEntry>;
+}
+
+interface LegacyProgress {
+  contentVersion: string;
+  chapterId: string;
+  flowIndex: number;
+  selectedNodeId: string;
+  completedNodeIds: string[];
+}
+
+function emptyStore(version: string): ProgressStore {
+  return { contentVersion: version, chapters: {} };
+}
+
+function isLegacy(value: unknown): value is LegacyProgress {
+  return (
+    !!value &&
+    typeof value === "object" &&
+    "chapterId" in (value as Record<string, unknown>) &&
+    typeof (value as LegacyProgress).chapterId === "string"
+  );
+}
+
+function readStoreRaw(): ProgressStore | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    const p = JSON.parse(raw) as GuideProgress;
-    if (p.chapterId !== chapterId || p.contentVersion !== version) return null;
-    return p;
+    const parsed = JSON.parse(raw);
+    if (isLegacy(parsed)) {
+      const migrated: ProgressStore = {
+        contentVersion: parsed.contentVersion,
+        lastChapterId: parsed.chapterId,
+        chapters: {
+          [parsed.chapterId]: {
+            flowIndex: parsed.flowIndex,
+            flowTotal: 0,
+            selectedNodeId: parsed.selectedNodeId,
+            completedNodeIds: parsed.completedNodeIds ?? [],
+          },
+        },
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      return migrated;
+    }
+    if (
+      parsed &&
+      typeof parsed === "object" &&
+      typeof (parsed as ProgressStore).contentVersion === "string" &&
+      (parsed as ProgressStore).chapters &&
+      typeof (parsed as ProgressStore).chapters === "object"
+    ) {
+      return parsed as ProgressStore;
+    }
+    return null;
   } catch {
     return null;
   }
 }
 
-function saveProgress(p: GuideProgress) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+function readStoreForVersion(version: string): ProgressStore {
+  const stored = readStoreRaw();
+  if (!stored) return emptyStore(version);
+  if (stored.contentVersion !== version) return emptyStore(version);
+  return stored;
+}
+
+export function readChapterProgress(
+  chapterId: string,
+  version: string,
+): ChapterProgressEntry | null {
+  const store = readStoreForVersion(version);
+  return store.chapters[chapterId] ?? null;
+}
+
+export function readLastChapterId(version: string): string | null {
+  const store = readStoreForVersion(version);
+  return store.lastChapterId ?? null;
+}
+
+export function readAllChapterProgress(
+  version: string,
+): Record<string, ChapterProgressEntry> {
+  return readStoreForVersion(version).chapters;
+}
+
+export function clearAllProgress() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function writeChapterProgress(
+  version: string,
+  chapterId: string,
+  entry: ChapterProgressEntry,
+) {
+  const store = readStoreForVersion(version);
+  store.contentVersion = version;
+  store.chapters[chapterId] = entry;
+  store.lastChapterId = chapterId;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
 
 export function useGuideProgress(chapter: Chapter, contentVersion: string) {
@@ -28,7 +124,7 @@ export function useGuideProgress(chapter: Chapter, contentVersion: string) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const stored = loadStored(chapter.id, contentVersion);
+    const stored = readChapterProgress(chapter.id, contentVersion);
     if (stored) {
       const max = Math.max(0, flowOrder.length - 1);
       const idx = Math.min(stored.flowIndex, max);
@@ -44,18 +140,24 @@ export function useGuideProgress(chapter: Chapter, contentVersion: string) {
   }, [chapter.id, contentVersion, flowOrder]);
 
   const persist = useCallback(
-    (patch: Partial<GuideProgress>) => {
-      const next: GuideProgress = {
-        contentVersion,
-        chapterId: chapter.id,
+    (patch: Partial<ChapterProgressEntry>) => {
+      const next: ChapterProgressEntry = {
         flowIndex,
+        flowTotal: flowOrder.length,
         selectedNodeId,
         completedNodeIds,
         ...patch,
       };
-      saveProgress(next);
+      writeChapterProgress(contentVersion, chapter.id, next);
     },
-    [chapter.id, contentVersion, flowIndex, selectedNodeId, completedNodeIds],
+    [
+      chapter.id,
+      contentVersion,
+      flowIndex,
+      selectedNodeId,
+      completedNodeIds,
+      flowOrder.length,
+    ],
   );
 
   useEffect(() => {
@@ -87,7 +189,6 @@ export function useGuideProgress(chapter: Chapter, contentVersion: string) {
     setSelectedNodeId(nextId);
   }, [flowIndex, flowOrder, completedNodeIds]);
 
-  /** 上一步：仅回退指针，默认不撤销 completed */
   const goPrev = useCallback(() => {
     if (flowIndex <= 0) return;
     const prevIndex = flowIndex - 1;
@@ -103,7 +204,6 @@ export function useGuideProgress(chapter: Chapter, contentVersion: string) {
     setSelectedNodeId(flowOrder[flowIndex] ?? "");
   }, [flowIndex, flowOrder]);
 
-  /** 设为当前：指针对齐，且之前节点全部标为已完成 */
   const setAsCurrent = useCallback(
     (nodeId: string) => {
       const idx = flowOrder.indexOf(nodeId);

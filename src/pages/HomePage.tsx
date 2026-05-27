@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { loadManifest } from "@/data/loadContent";
+import {
+  clearAllProgress,
+  readAllChapterProgress,
+  readLastChapterId,
+  type ChapterProgressEntry,
+} from "@/hooks/useGuideProgress";
 import type { Manifest } from "@/types/content";
-
-const STORAGE_KEY = "poe2storyguide_progress";
 
 const featureCards = [
   { title: "地图节点", body: "章节地图上直观看到路线、奖励点和任务目标。" },
@@ -17,21 +21,27 @@ const stats = [
   { value: "移动端", label: "触摸拖图" },
 ];
 
+function computePercent(entry: ChapterProgressEntry | undefined): number {
+  if (!entry) return 0;
+  const total = entry.flowTotal;
+  if (!total || total <= 0) return 0;
+  const done = entry.completedNodeIds?.length ?? 0;
+  return Math.max(0, Math.min(100, Math.round((done / total) * 100)));
+}
+
 export function HomePage() {
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [continueChapterId, setContinueChapterId] = useState<string | null>(null);
+  const [progressMap, setProgressMap] = useState<Record<string, ChapterProgressEntry>>({});
 
   useEffect(() => {
-    loadManifest().then(setManifest).catch(console.error);
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const p = JSON.parse(raw) as { chapterId?: string };
-        if (p.chapterId) setContinueChapterId(p.chapterId);
-      }
-    } catch {
-      /* ignore */
-    }
+    loadManifest()
+      .then((m) => {
+        setManifest(m);
+        setContinueChapterId(readLastChapterId(m.contentVersion));
+        setProgressMap(readAllChapterProgress(m.contentVersion));
+      })
+      .catch(console.error);
   }, []);
 
   const first = manifest?.chapters[0];
@@ -41,8 +51,9 @@ export function HomePage() {
   );
 
   const handleResetProgress = () => {
-    localStorage.removeItem(STORAGE_KEY);
+    clearAllProgress();
     setContinueChapterId(null);
+    setProgressMap({});
   };
 
   return (
@@ -127,6 +138,8 @@ export function HomePage() {
 
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
               {manifest.chapters.map((chapter, index) => {
+                const entry = progressMap[chapter.id];
+                const percent = computePercent(entry);
                 const isContinue = chapter.id === continueChapter?.id;
                 return (
                   <Link key={chapter.id} to={`/guide/${chapter.id}`} className="home-chapter-card">
@@ -137,8 +150,14 @@ export function HomePage() {
                       </div>
                       {isContinue ? <span className="home-current-chip">继续</span> : null}
                     </div>
-                    <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-black/60">
-                      <div className="h-full origin-left rounded-full bg-[var(--accent)]" style={{ width: isContinue ? "66%" : "0%" }} />
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-black/60">
+                        <div
+                          className="h-full origin-left rounded-full bg-[var(--accent)]"
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <span className="shrink-0 text-[10px] font-semibold text-[var(--muted)]">{percent}%</span>
                     </div>
                   </Link>
                 );
