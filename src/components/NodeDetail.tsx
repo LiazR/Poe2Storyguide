@@ -84,6 +84,14 @@ export function NodeDetail({
           <span className="text-[var(--accent)]">{flowLabel}.</span> {displayTitle}
         </h1>
 
+        {node.seasonReward && (
+          <div className="season-reward-box mt-3">
+            <span className="season-reward-icon">&#9733;</span>
+            <span className="season-reward-label">赛季玩法奖励：</span>
+            <span className="season-reward-text">{node.seasonReward}</span>
+          </div>
+        )}
+
         {node.images && node.images.length > 0 && (
           <div className="mt-3 grid gap-2">
             {node.images.map((img) => (

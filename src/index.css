@@ -515,6 +515,33 @@ a {
   color: var(--text);
 }
 
+.season-reward-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid rgba(72, 160, 120, 0.28);
+  border-radius: 10px;
+  background: rgba(30, 60, 45, 0.22);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.season-reward-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #6ee7b0;
+  font-size: 14px;
+}
+.season-reward-label {
+  flex-shrink: 0;
+  color: #6ee7b0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.season-reward-text {
+  color: #a7f3d0;
+}
+
 .lightbox {
   @apply fixed inset-0 z-50 m-0 flex max-h-none max-w-none items-center justify-center border-0 bg-black/85;
   cursor: grab;

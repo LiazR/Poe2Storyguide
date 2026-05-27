@@ -51,6 +51,8 @@ export interface StoryNode {
     text: string;
     type?: "waypoint" | "boss" | "skill" | "quest" | "danger" | "loot";
   };
+  /** 赛季玩法奖励描述文本，存在且非空时在右侧面板标题下方展示 */
+  seasonReward?: string;
   coverImage?: string | null;
   images?: NodeImage[];
   steps?: NodeStep[];
