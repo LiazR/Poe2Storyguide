@@ -57,11 +57,11 @@ export function HomePage() {
   };
 
   return (
-    <main className="home-shell h-screen overflow-hidden px-4 py-4 text-[var(--text)] sm:px-6 lg:px-8">
+    <main className="home-shell min-h-screen overflow-x-hidden px-4 py-4 text-[var(--text)] sm:px-6 lg:px-8">
       <div className="home-glow home-glow-a" />
       <div className="home-glow home-glow-b" />
 
-      <section className="relative mx-auto flex h-full w-full max-w-6xl flex-col justify-center gap-4">
+      <section className="relative mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-6xl flex-col justify-center gap-4">
         <div className="home-hero-card">
           <div className="mx-auto max-w-4xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,162,39,0.35)] bg-[rgba(201,162,39,0.08)] px-3 py-1 text-xs font-semibold text-[var(--accent)]">

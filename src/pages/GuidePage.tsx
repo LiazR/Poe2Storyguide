@@ -108,7 +108,7 @@ export function GuidePage() {
   }
 
   return (
-    <div className="guide-layout flex h-dvh gap-3 p-3">
+    <div className="guide-layout flex min-h-dvh gap-3 p-3">
       <aside className={`guide-left guide-box flex min-h-0 shrink-0 flex-col ${leftCollapsed ? "collapsed" : ""}`}>
         <div className="guide-left-top flex items-center gap-2 px-3 py-3">
           <Link to="/" className="guide-home-link">
