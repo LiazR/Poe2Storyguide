@@ -222,7 +222,7 @@ export function MapCanvas({
           复位
         </button>
         <span className="ml-2 hidden text-xs text-[var(--muted)] sm:inline">
-          滚轮缩放 · 拖拽平移
+          滚轮缩放 · 拖拽平移 · 本工具免费开源，请勿倒卖
         </span>
         {debug && (
           <span className="ml-2 text-xs text-amber-400">

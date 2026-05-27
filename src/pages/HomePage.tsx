@@ -66,6 +66,10 @@ export function HomePage() {
               GitHub 仓库 · 如果有用的话别忘了点个 Star
             </a>
 
+            <div className="mx-auto mt-2 max-w-3xl rounded-xl border border-[rgba(201,162,39,0.2)] bg-black/20 px-3 py-2 text-xs leading-5 text-[var(--muted)]">
+              本工具免费开源，仅供玩家跑剧情时参考使用。请勿将本站或离线包二次倒卖，避免其他玩家被误导付费。
+            </div>
+
             <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
               跑剧情不迷路，
               <span className="block text-[var(--accent)]">下一步直接看地图。</span>
