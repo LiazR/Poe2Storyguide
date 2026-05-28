@@ -210,6 +210,9 @@ a {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(16px);
 }
+.guide-center {
+  transition: flex 0.35s cubic-bezier(0.4, 0, 0.2, 1), min-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
 .guide-home-link {
   @apply rounded-full px-3 py-1.5 text-sm font-semibold;
   color: var(--muted);
@@ -294,9 +297,30 @@ a {
   touch-action: none;
   overscroll-behavior: contain;
   padding: 12px;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .map-viewport.dragging {
   cursor: grabbing;
+}
+.map-viewport-collapsed {
+  max-height: 0 !important;
+  min-height: 0 !important;
+  opacity: 0;
+  padding: 0 !important;
+  overflow: hidden;
+  flex: none !important;
+}
+.guide-map-collapse-btn {
+  border-color: rgba(201, 162, 39, 0.4) !important;
+  background: rgba(201, 162, 39, 0.12) !important;
+  color: var(--accent) !important;
+  font-weight: 700;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+.guide-map-collapse-btn:hover {
+  border-color: var(--accent) !important;
+  background: rgba(201, 162, 39, 0.2) !important;
+  transform: scale(1.04);
 }
 .map-stage {
   transform-origin: 0 0;
@@ -577,10 +601,10 @@ a {
 @media (max-width: 900px) {
   .guide-layout {
     flex-direction: column;
-    min-height: 100dvh;
+    height: 100dvh;
     gap: 0.5rem;
     padding: 0.5rem;
-    overflow: auto;
+    overflow: hidden;
   }
   .guide-left,
   .guide-right {
@@ -611,12 +635,28 @@ a {
     flex: 1 0 58dvh;
     min-height: 360px;
   }
+  .guide-center.map-collapsed {
+    flex: 0 0 auto !important;
+    min-height: unset !important;
+    overflow: hidden;
+  }
   .guide-right {
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .guide-right-expand {
+    flex: 1 1 auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+  .guide-right-expand .node-detail-scroll {
+    max-height: none;
   }
   .node-detail-scroll {
-    max-height: 46dvh;
+    max-height: none;
   }
   .map-toolbar {
     gap: 0.375rem;
@@ -635,9 +675,6 @@ a {
     font-size: 10px;
   }
   .detail-actions {
-    position: sticky;
-    bottom: 0;
-    z-index: 6;
     gap: 0.5rem;
     padding: 0.75rem;
     backdrop-filter: blur(16px);
@@ -654,6 +691,19 @@ a {
     flex-basis: 54dvh;
     min-height: 320px;
   }
+  .guide-center.map-collapsed {
+    flex-basis: auto !important;
+    min-height: unset !important;
+    overflow: hidden;
+  }
+  .guide-right-expand {
+    flex: 1 1 auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+  .guide-right-expand .node-detail-scroll {
+    max-height: none;
+  }
   .guide-left-top {
     padding: 0.625rem 0.75rem;
   }
@@ -666,7 +716,7 @@ a {
     width: 2rem;
   }
   .node-detail-scroll {
-    max-height: 52dvh;
+    max-height: none;
     padding: 0.875rem;
   }
   .map-toolbar .map-tool-btn.ml-auto {
@@ -703,11 +753,10 @@ a {
 @media (min-width: 901px) and (max-aspect-ratio: 4 / 5) {
   .guide-layout {
     flex-direction: column;
-    height: auto;
-    min-height: 100dvh;
+    height: 100dvh;
     gap: 0.5rem;
     padding: 0.5rem;
-    overflow: auto;
+    overflow: hidden;
   }
   .guide-left,
   .guide-right {
@@ -729,14 +778,31 @@ a {
     flex: 1 0 56dvh;
     min-height: 420px;
   }
+  .guide-center.map-collapsed {
+    flex: 0 0 auto !important;
+    min-height: unset !important;
+    overflow: hidden;
+  }
   .guide-right {
     min-width: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .guide-right-expand {
+    flex: 1 1 auto !important;
+    display: flex;
+    flex-direction: column;
+  }
+  .guide-right-expand .node-detail-scroll {
+    max-height: none;
   }
   .guide-resize-handle {
     display: none;
   }
   .node-detail-scroll {
-    max-height: 42dvh;
+    max-height: none;
   }
   .marker-pin {
     height: 25px;

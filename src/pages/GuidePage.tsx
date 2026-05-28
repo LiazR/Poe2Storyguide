@@ -12,6 +12,8 @@ const MIN_RIGHT_WIDTH = 320;
 const MAX_RIGHT_WIDTH = 680;
 const DEFAULT_RIGHT_WIDTH = 380;
 
+const PORTRAIT_QUERY = "(max-width: 900px), (min-width: 901px) and (max-aspect-ratio: 4/5)";
+
 export function GuidePage() {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
@@ -24,6 +26,10 @@ export function GuidePage() {
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightWidth, setRightWidth] = useState(DEFAULT_RIGHT_WIDTH);
   const [nameLocale, setNameLocale] = useState<NameLocale>("international");
+  const [mapCollapsed, setMapCollapsed] = useState(false);
+  const [isPortrait, setIsPortrait] = useState(
+    () => window.matchMedia(PORTRAIT_QUERY).matches,
+  );
   const rightResizeRef = useRef<{ startX: number; startWidth: number } | null>(null);
   const rightResizeListenersRef = useRef<{ onMove: (ev: MouseEvent) => void; onUp: () => void } | null>(null);
 
@@ -40,6 +46,13 @@ export function GuidePage() {
       })
       .catch((e) => setError(String(e)));
   }, [chapterId]);
+
+  useEffect(() => {
+    const mq = window.matchMedia(PORTRAIT_QUERY);
+    const handler = (e: MediaQueryListEvent) => setIsPortrait(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const progress = useGuideProgress(
     chapter ?? {
@@ -145,7 +158,7 @@ export function GuidePage() {
         />
       </aside>
 
-      <main className="guide-center guide-box min-w-0 flex-1">
+      <main className={`guide-center guide-box min-w-0 flex-1 ${mapCollapsed && isPortrait ? "map-collapsed" : ""}`}>
         <MapCanvas
           chapter={chapter}
           activeMapId={activeMapId}
@@ -156,10 +169,12 @@ export function GuidePage() {
           nameLocale={nameLocale}
           onToggleNameLocale={toggleNameLocale}
           debug={debug}
+          mapCollapsed={isPortrait ? mapCollapsed : false}
+          onToggleMapCollapse={isPortrait ? () => setMapCollapsed((v) => !v) : undefined}
         />
       </main>
 
-      <aside className="guide-right guide-box relative shrink-0" style={{ width: rightWidth }}>
+      <aside className={`guide-right guide-box relative shrink-0 ${mapCollapsed && isPortrait ? "guide-right-expand" : ""}`} style={{ width: rightWidth }}>
         <button
           type="button"
           className="guide-resize-handle"

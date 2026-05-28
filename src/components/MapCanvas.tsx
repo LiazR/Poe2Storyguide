@@ -35,6 +35,8 @@ interface MapCanvasProps {
   nameLocale: NameLocale;
   onToggleNameLocale: () => void;
   debug?: boolean;
+  mapCollapsed?: boolean;
+  onToggleMapCollapse?: () => void;
 }
 
 export function MapCanvas({
@@ -47,6 +49,8 @@ export function MapCanvas({
   nameLocale,
   onToggleNameLocale,
   debug = false,
+  mapCollapsed = false,
+  onToggleMapCollapse,
 }: MapCanvasProps) {
   const map = chapter.maps.find((m) => m.id === activeMapId);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -335,34 +339,48 @@ export function MapCanvas({
   return (
     <div className="flex h-full flex-col">
       <div className="map-toolbar flex shrink-0 flex-wrap items-center gap-2 px-3 py-3">
-        <button type="button" className="map-tool-btn" onClick={zoomOut} aria-label="缩小">
-          −
-        </button>
-        <span className="min-w-[3rem] text-center text-xs text-[var(--muted)]">
-          {displayPercent(scale)}%
-        </span>
-        <button type="button" className="map-tool-btn" onClick={zoomIn} aria-label="放大">
-          +
-        </button>
-        <button type="button" className="map-tool-btn ml-1" onClick={resetView}>
-          复位
-        </button>
-        <span className="ml-2 hidden text-xs text-[var(--muted)] sm:inline">
-          滚轮缩放 · 拖拽平移 · 本工具免费开源，请勿倒卖
-        </span>
-        <button type="button" className="map-tool-btn ml-auto" onClick={onToggleNameLocale}>
-          {nameLocale === "international" ? "国际服名" : "国服名"}
-        </button>
-        {debug && (
-          <span className="ml-2 text-xs text-amber-400">
-            调试：点击地图 → 红圈=点击点，圆点中心应对齐
-          </span>
+        {onToggleMapCollapse && (
+          <button
+            type="button"
+            className="map-tool-btn guide-map-collapse-btn"
+            onClick={onToggleMapCollapse}
+            aria-label={mapCollapsed ? "展开地图" : "收起地图"}
+          >
+            {mapCollapsed ? "▶ 展开地图" : "▼ 收起地图"}
+          </button>
+        )}
+        {!mapCollapsed && (
+          <>
+            <button type="button" className="map-tool-btn" onClick={zoomOut} aria-label="缩小">
+              −
+            </button>
+            <span className="min-w-[3rem] text-center text-xs text-[var(--muted)]">
+              {displayPercent(scale)}%
+            </span>
+            <button type="button" className="map-tool-btn" onClick={zoomIn} aria-label="放大">
+              +
+            </button>
+            <button type="button" className="map-tool-btn ml-1" onClick={resetView}>
+              复位
+            </button>
+            <span className="ml-2 hidden text-xs text-[var(--muted)] sm:inline">
+              滚轮缩放 · 拖拽平移 · 本工具免费开源，请勿倒卖
+            </span>
+            <button type="button" className="map-tool-btn ml-auto" onClick={onToggleNameLocale}>
+              {nameLocale === "international" ? "国际服名" : "国服名"}
+            </button>
+            {debug && (
+              <span className="ml-2 text-xs text-amber-400">
+                调试：点击地图 → 红圈=点击点，圆点中心应对齐
+              </span>
+            )}
+          </>
         )}
       </div>
 
       <div
         ref={viewportRef}
-        className={`map-viewport min-h-0 flex-1 ${dragging ? "dragging" : ""}`}
+        className={`map-viewport min-h-0 flex-1 ${dragging ? "dragging" : ""} ${mapCollapsed ? "map-viewport-collapsed" : ""}`}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
