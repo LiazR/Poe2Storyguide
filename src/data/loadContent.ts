@@ -3,6 +3,7 @@ import act1 from "../../content/chapters/act1.json";
 import act2 from "../../content/chapters/act2.json";
 import act3 from "../../content/chapters/act3.json";
 import act4 from "../../content/chapters/act4.json";
+import act5 from "../../content/chapters/act5.json";
 import type { Chapter, Manifest } from "@/types/content";
 
 const chapters: Record<string, Chapter> = {
@@ -10,6 +11,7 @@ const chapters: Record<string, Chapter> = {
   "/content/chapters/act2.json": act2 as Chapter,
   "/content/chapters/act3.json": act3 as Chapter,
   "/content/chapters/act4.json": act4 as Chapter,
+  "/content/chapters/act5.json": act5 as Chapter,
 };
 
 export const assetUrl = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;

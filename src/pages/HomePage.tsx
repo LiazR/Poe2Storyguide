@@ -16,7 +16,7 @@ const featureCards = [
 ];
 
 const stats = [
-  { value: "4", label: "已整理章节" },
+  { value: "5", label: "已整理章节" },
   { value: "80+", label: "流程节点" },
   { value: "移动端", label: "触摸拖图" },
 ];

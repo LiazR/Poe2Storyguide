@@ -1,0 +1,505 @@
+{
+  "id": "act5",
+  "title": "Act 5",
+  "flowOrder": [
+    "node_1",
+    "node_2",
+    "node_3",
+    "node_4",
+    "node_5",
+    "node_6",
+    "node_7",
+    "node_8",
+    "node_9",
+    "node_10",
+    "node_11",
+    "node_12",
+    "node_13",
+    "node_14",
+    "node_15",
+    "node_16",
+    "node_17",
+    "node_18",
+    "node_19",
+    "node_20",
+    "node_21",
+    "node_22"
+  ],
+  "maps": [
+    {
+      "id": "act5",
+      "title": "Act 5 地图",
+      "image": "/maps/act5.png"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node_1",
+      "mapId": "act5",
+      "x": 81.7, 
+      "y": 75.4,
+      "title": "林間空地",
+      "mapTitle": "林間空地",
+      "description": "建议59级以内完成间章。因为等级54-59会减40全抗。60-64会减50全抗\n此章节后续会随版本修改，同时基本属于线性任务一路打过去即可\n建议优先去林地空间\n好处除了天赋点会多2天赋点+40精魂+npc给传奇\n",
+      "next": "node_2",
+      "hint": "建议优先去林地空间，多2天赋点+40精魂+npc给传奇",
+      "steps": [
+        {
+          "title": "前往林地空间",
+          "body": "建议优先去林地空间，好处除了天赋点会多2天赋点+40精魂+npc给传奇"
+        }
+      ]
+    },
+    {
+      "id": "node_2",
+      "mapId": "act5",
+      "x": 84.1, 
+      "y": 60.4,
+      "title": "灰燼森林",
+      "mapTitle": "灰燼森林",
+      "description": "(可选)此处有个纪念碑会给高等级技能宝石。\n建议直接到克里亚村(下张图)\n",
+      "next": "node_3",
+      "hint": "建议直接到克里亚村(下张图)",
+      "seasonReward": "随机稀有腰带",
+      "steps": [
+        {
+          "title": "可选：纪念碑",
+          "body": "(可选)此处有个纪念碑会给高等级技能宝石。"
+        },
+        {
+          "title": "前往库里亚村",
+          "body": "建议直接到克里亚村(下张图)"
+        }
+      ]
+    },
+    {
+      "id": "node_3",
+      "mapId": "act5",
+      "x": 74.3, 
+      "y": 55.3,
+      "title": "庫萊亞村",
+      "mapTitle": "庫萊亞村",
+      "description": "击杀完boss后会给剧情属性40精魂和精魂宝石\n",
+      "next": "node_4",
+      "hint": "击杀完boss后会给剧情属性40精魂和精魂宝石",
+      "seasonReward": "随机符文",
+      "badge": {
+        "text": "+40精魂",
+        "type": "skill"
+      },
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "击杀完boss后会给剧情属性40精魂和精魂宝石"
+        }
+      ]
+    },
+    {
+      "id": "node_4",
+      "mapId": "act5",
+      "x": 79.5, 
+      "y": 44.2,
+      "title": "冰川湖泊",
+      "mapTitle": "冰川湖泊",
+      "description": "在冰冻利爪boss前有个狂嗥洞穴\n然后去库莱亚山巅\n",
+      "next": "node_5",
+      "hint": "先去狂嗥洞穴再去库莱亚山巅",
+      "seasonReward": "高阶增幅石",
+      "steps": [
+        {
+          "title": "寻找狂嗥洞穴",
+          "body": "在冰冻利爪boss前有个狂嗥洞穴"
+        },
+        {
+          "title": "前往库莱亚山巅",
+          "body": "然后去库莱亚山巅"
+        }
+      ]
+    },
+    {
+      "id": "node_5",
+      "mapId": "act5",
+      "x": 89.2, 
+      "y": 43.7,
+      "title": "狂嗥洞穴",
+      "mapTitle": "狂嗥洞穴",
+      "description": "击杀boss得2点剧情天赋\n",
+      "next": "node_6",
+      "hint": "击杀boss得2点剧情天赋",
+      "seasonReward": "混沌石",
+      "badge": {
+        "text": "+2天赋",
+        "type": "skill"
+      },
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "击杀boss得2点剧情天赋"
+        }
+      ]
+    },
+    {
+      "id": "node_6",
+      "mapId": "act5",
+      "x": 77, 
+      "y": 36.6,
+      "title": "庫萊亞山巔",
+      "mapTitle": "庫萊亞山巔",
+      "description": "此处记得找左斜上方处npc领取免费传奇物品\n",
+      "next": "node_7",
+      "hint": "找左斜上方处npc领取免费传奇物品",
+      "seasonReward": "高阶蜕变石",
+      "steps": [
+        {
+          "title": "领取免费传奇",
+          "body": "此处记得找左斜上方处npc领取免费传奇物品"
+        }
+      ]
+    },
+    {
+      "id": "node_7",
+      "mapId": "act5",
+      "x": 82.2, 
+      "y": 33.4,
+      "title": "蝕刻溪谷",
+      "mapTitle": "蝕刻溪谷",
+      "description": "击杀boss进入下张图\n",
+      "next": "node_8",
+      "hint": "击杀boss进入下张图",
+      "seasonReward": "崇高石",
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "击杀boss进入下张图"
+        }
+      ]
+    },
+    {
+      "id": "node_8",
+      "mapId": "act5",
+      "x": 84.2, 
+      "y": 27.1,
+      "title": "庫阿西克寶庫",
+      "mapTitle": "庫阿西克寶庫",
+      "description": "直接击杀boss后回城找黑衣人去往卡里市集\n",
+      "next": "node_9",
+      "hint": "直接击杀boss后回城找黑衣人去往卡里市集",
+      "seasonReward": "瓦尔宝珠",
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "直接击杀boss后回城找黑衣人去往卡里市集"
+        }
+      ]
+    },
+    {
+      "id": "node_9",
+      "mapId": "act5",
+      "x": 47.4, 
+      "y": 59.9,
+      "title": "卡里市集",
+      "mapTitle": "卡里市集",
+      "description": "卡莉集市最终boss为王子(需要熟练度如果觉得不好打。可开完奇玛尔水库回城找黑衣人去往奥格姆(避难所))\n往斜右上处出口进卡里交匯道\n",
+      "next": "node_10",
+      "hint": "最终boss为王子，往斜右上处出口进卡里交匯道",
+      "steps": [
+        {
+          "title": "最终boss",
+          "body": "卡莉集市最终boss为王子(需要熟练度如果觉得不好打。可开完奇玛尔水库回城找黑衣人去往奥格姆(避难所))"
+        },
+        {
+          "title": "进入卡里交匯道",
+          "body": "往斜右上处出口进卡里交匯道"
+        }
+      ]
+    },
+    {
+      "id": "node_10",
+      "mapId": "act5",
+      "x": 54.1, 
+      "y": 59.7,
+      "title": "卡里交匯道",
+      "mapTitle": "卡里交匯道",
+      "description": "boss打完得(2点剧情天赋)在斜上右上方处打完不急着回城\n正上方处有骨颚阶梯拿剧情属性永久5%生命上限\n斜左上放 賈萊關口传送点\n最左侧处进入卡塔爾之塘\n",
+      "next": "node_11",
+      "hint": "boss得2点剧情天赋，上方骨颚阶梯拿5%生命上限，左侧进入卡塔爾之塘",
+      "seasonReward": "宝石匠棱镜",
+      "badge": {
+        "text": "+2天赋,5%hp",
+        "type": "skill"
+      },
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "boss打完得(2点剧情天赋)在斜上右上方处打完不急着回城"
+        },
+        {
+          "title": "骨颚阶梯",
+          "body": "正上方处有骨颚阶梯拿剧情属性永久5%生命上限"
+        },
+        {
+          "title": "賈萊關口传送点",
+          "body": "斜左上放 賈萊關口传送点"
+        },
+        {
+          "title": "进入卡塔爾之塘",
+          "body": "最左侧处进入卡塔爾之塘"
+        }
+      ]
+    },
+    {
+      "id": "node_11",
+      "mapId": "act5",
+      "x": 56.8, 
+      "y": 74.7,
+      "title": "卡塔爾之塘",
+      "mapTitle": "卡塔爾之塘",
+      "description": "地图呈U型直接下张图即可\n",
+      "next": "node_12",
+      "hint": "地图呈U型直接下张图即可",
+      "seasonReward": "点金石",
+      "steps": [
+        {
+          "title": "前进",
+          "body": "地图呈U型直接下张图即可"
+        }
+      ]
+    },
+    {
+      "id": "node_12",
+      "mapId": "act5",
+      "x": 45.7, 
+      "y": 79.9,
+      "title": "塞爾卡里庇護所",
+      "mapTitle": "塞爾卡里庇護所",
+      "description": "①(建议拿)此处掉落硬币在右边推荐换项链有几率出法术/投射物/召唤等级的项链\n②击杀完boss后不用回城一路靠传送点回到卡哈塔之池—>卡莉渡口—>贾莱关口传送点\n",
+      "next": "node_13",
+      "hint": "掉落硬币换项链，击杀boss后靠传送点回到贾莱关口",
+      "seasonReward": "机会石",
+      "steps": [
+        {
+          "title": "硬币换项链",
+          "body": "①(建议拿)此处掉落硬币在右边推荐换项链有几率出法术/投射物/召唤等级的项链"
+        },
+        {
+          "title": "击杀boss后返回",
+          "body": "②击杀完boss后不用回城一路靠传送点回到卡哈塔之池—>卡莉渡口—>贾莱关口传送点"
+        }
+      ]
+    },
+    {
+      "id": "node_13",
+      "mapId": "act5",
+      "x": 54.3, 
+      "y": 47.6,
+      "title": "賈萊關口",
+      "mapTitle": "賈萊關口",
+      "description": "boss打不过记得带火抗戒指。击杀完boss后到奇玛(下张图)\n",
+      "next": "node_14",
+      "hint": "boss打不过记得带火抗戒指",
+      "seasonReward": "高阶增幅石",
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "boss打不过记得带火抗戒指。击杀完boss后到奇玛(下张图)"
+        }
+      ]
+    },
+    {
+      "id": "node_14",
+      "mapId": "act5",
+      "x": 61.3, 
+      "y": 31.7,
+      "title": "奇瑪",
+      "mapTitle": "奇瑪",
+      "description": "①离入口不远处就会有5个buff选项柱\n②斜右上方即是奇玛水源地\n",
+      "next": "node_15",
+      "hint": "离入口不远处有5个buff选项柱，斜右上方是奇玛水源地",
+      "seasonReward": "崇高石",
+      "badge": {
+        "text": "永久增益",
+        "type": "loot"
+      },
+      "steps": [
+        {
+          "title": "5个buff选项柱",
+          "body": "①离入口不远处就会有5个buff选项柱"
+        },
+        {
+          "title": "前往奇玛水源地",
+          "body": "②斜右上方即是奇玛水源地"
+        }
+      ]
+    },
+    {
+      "id": "node_15",
+      "mapId": "act5",
+      "x": 52.8, 
+      "y": 30.5,
+      "title": "奇瑪水源地",
+      "mapTitle": "奇瑪水源地",
+      "description": "此处如果觉得一路过来的boss打的比较艰难推荐开完奇玛尔水库回城找黑衣人去往奥格姆(避难所)\n①(可选)收集任务道具放入3个水池\n②最终boss打完后回城找黑衣人去往奥格姆(庇护所)\n",
+      "next": "node_16",
+      "hint": "可选收集任务道具放入3个水池，击杀最终boss后找黑衣人",
+      "seasonReward": "高阶蜕变石",
+      "steps": [
+        {
+          "title": "可选：收集任务道具",
+          "body": "①(可选)收集任务道具放入3个水池"
+        },
+        {
+          "title": "击杀最终boss",
+          "body": "②最终boss打完后回城找黑衣人去往奥格姆(庇护所)"
+        }
+      ]
+    },
+    {
+      "id": "node_16",
+      "mapId": "act5",
+      "x": 22.9, 
+      "y": 76.9,
+      "title": "庇護所",
+      "mapTitle": "庇護所",
+      "description": "进入火噬農地\n",
+      "next": "node_17",
+      "hint": "进入火噬農地",
+      "steps": [
+        {
+          "title": "前往火噬農地",
+          "body": "进入火噬農地"
+        }
+      ]
+    },
+    {
+      "id": "node_17",
+      "mapId": "act5",
+      "x": 33.2, 
+      "y": 61,
+      "title": "火噬農地",
+      "mapTitle": "火噬農地",
+      "description": "①在斜上放记得开传送点(需打完瑟尔之石boss后开启)\n②建议先击杀寒冰boss再击杀火焰boss\n",
+      "next": "node_18",
+      "hint": "先击杀寒冰boss再击杀火焰boss，斜上方开传送点",
+      "seasonReward": "4级辅助宝石",
+      "steps": [
+        {
+          "title": "开传送点",
+          "body": "①在斜上放记得开传送点(需打完瑟尔之石boss后开启)"
+        },
+        {
+          "title": "击杀boss",
+          "body": "②建议先击杀寒冰boss再击杀火焰boss"
+        }
+      ]
+    },
+    {
+      "id": "node_18",
+      "mapId": "act5",
+      "x": 32.5, 
+      "y": 43.7,
+      "title": "瑟雷之石",
+      "mapTitle": "瑟雷之石",
+      "description": "沿着边缘开完石阵一圈后回到中间石阵击杀boss后回到火噬農地斜上方传送点\n",
+      "next": "node_19",
+      "hint": "沿着边缘开完石阵一圈后回到中间石阵击杀boss",
+      "seasonReward": "崇高石",
+      "steps": [
+        {
+          "title": "开石阵击杀boss",
+          "body": "沿着边缘开完石阵一圈后回到中间石阵击杀boss后回到火噬農地斜上方传送点"
+        }
+      ]
+    },
+    {
+      "id": "node_19",
+      "mapId": "act5",
+      "x": 20, 
+      "y": 49,
+      "title": "黑木林",
+      "mapTitle": "黑木林",
+      "description": "沿着走去往霍爾登\n",
+      "next": "node_20",
+      "hint": "沿着走去往霍爾登",
+      "seasonReward": "高阶蜕变石",
+      "steps": [
+        {
+          "title": "前往霍爾登",
+          "body": "沿着走去往霍爾登"
+        }
+      ]
+    },
+    {
+      "id": "node_20",
+      "mapId": "act5",
+      "x": 25.9, 
+      "y": 35.5,
+      "title": "霍爾登",
+      "mapTitle": "霍爾登",
+      "description": "①往斜上方去往狼之要塞\n②(可选)此图的运河处有npc出售高级符文(2000金币)可都买\n③斜下方前往霍尔顿庄园\n",
+      "next": "node_21",
+      "hint": "斜上方去狼之要塞，运河处npc出售高级符文",
+      "seasonReward": "随机符文",
+      "steps": [
+        {
+          "title": "前往狼之要塞",
+          "body": "①往斜上方去往狼之要塞"
+        },
+        {
+          "title": "可选：购买高级符文",
+          "body": "②(可选)此图的运河处有npc出售高级符文(2000金币)可都买"
+        },
+        {
+          "title": "前往霍尔顿庄园",
+          "body": "③斜下方前往霍尔顿庄园"
+        }
+      ]
+    },
+    {
+      "id": "node_21",
+      "mapId": "act5",
+      "x": 21.8, 
+      "y": 30.6,
+      "title": "狼之要塞",
+      "mapTitle": "狼之要塞",
+      "description": "(boss位于斜上方或斜下方)击杀boss得(2点剧情天赋）\n",
+      "next": "node_22",
+      "hint": "boss位于斜上方或斜下方，击杀boss得2点剧情天赋",
+      "badge": {
+        "text": "+2天赋",
+        "type": "skill"
+      },
+      "steps": [
+        {
+          "title": "击杀狼堡boss",
+          "body": "(boss位于斜上方或斜下方)击杀boss得(2点剧情天赋）"
+        }
+      ]
+    },
+    {
+      "id": "node_22",
+      "mapId": "act5",
+      "x": 30.7, 
+      "y": 31,
+      "title": "霍爾登宅第",
+      "mapTitle": "霍爾登宅第",
+      "description": "①boss就在第一层。但得从右边绕上二楼再回一楼。击杀完boss后回到庇护所与黑衣人\n②对完后前往第四章城镇再与黑衣人对话(2点剧情天赋)点后解锁异界\n",
+      "next": null,
+      "hint": "boss从右边绕上二楼再回一楼，击杀后回庇护所找黑衣人解锁异界",
+      "seasonReward": "工匠石",
+      "badge": {
+        "text": "+2天赋",
+        "type": "skill"
+      },
+      "steps": [
+        {
+          "title": "击杀boss",
+          "body": "①boss就在第一层。但得从右边绕上二楼再回一楼。击杀完boss后回到庇护所与黑衣人"
+        },
+        {
+          "title": "解锁异界",
+          "body": "②对完后前往第四章城镇再与黑衣人对话(2点剧情天赋)点后解锁异界"
+        }
+      ]
+    }
+  ]
+}
