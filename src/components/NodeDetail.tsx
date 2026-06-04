@@ -1,8 +1,9 @@
 import { assetUrl } from "@/data/loadContent";
 import { getNodeDisplayName, type NameLocale } from "@/data/nodeNames";
+import { SeasonQuestPanel } from "@/components/SeasonQuestPanel";
 import { createPortal } from "react-dom";
 import { useCallback, useRef, useState } from "react";
-import type { StoryNode } from "@/types/content";
+import type { SeasonQuest, StoryNode } from "@/types/content";
 
 interface NodeDetailProps {
   node: StoryNode | undefined;
@@ -19,6 +20,7 @@ interface NodeDetailProps {
   onReturnToCurrent: () => void;
   chapterId: string;
   nameLocale: NameLocale;
+  seasonQuests?: SeasonQuest[];
 }
 
 export function NodeDetail({
@@ -36,10 +38,12 @@ export function NodeDetail({
   onReturnToCurrent,
   chapterId,
   nameLocale,
+  seasonQuests,
 }: NodeDetailProps) {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [lbZoom, setLbZoom] = useState(1);
   const [lbPan, setLbPan] = useState({ x: 0, y: 0 });
+  const [seasonExpanded, setSeasonExpanded] = useState(false);
   const lbDragRef = useRef<{ startX: number; startY: number; panX: number; panY: number } | null>(null);
 
   const closeLightbox = useCallback(() => {
@@ -55,6 +59,7 @@ export function NodeDetail({
   }
 
   const displayTitle = getNodeDisplayName(chapterId, node.id, node.title, nameLocale);
+  const hasSeason = seasonQuests && seasonQuests.length > 0;
 
   return (
     <div className="flex h-full flex-col">
@@ -68,9 +73,20 @@ export function NodeDetail({
       )}
 
       <div className="node-detail-scroll min-h-0 flex-1 overflow-y-auto px-4 py-4">
-        <p className="text-xs text-[var(--muted)]">
-          进度 {flowIndex + 1} / {flowTotal}
-        </p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-xs text-[var(--muted)] shrink-0">
+            进度 {flowIndex + 1} / {flowTotal}
+          </p>
+          {hasSeason && (
+            <button
+              type="button"
+              className="btn-primary shrink-0 rounded-lg px-3 py-1 text-xs"
+              onClick={() => setSeasonExpanded((v) => !v)}
+            >
+              {seasonExpanded ? "▼" : "▶"} 赛季任务
+            </button>
+          )}
+        </div>
 
         {node.coverImage && (
           <img
@@ -108,6 +124,10 @@ export function NodeDetail({
               </button>
             ))}
           </div>
+        )}
+
+        {hasSeason && seasonExpanded && (
+          <SeasonQuestPanel seasonQuests={seasonQuests!} />
         )}
 
         <p className="mt-2 leading-relaxed whitespace-pre-line text-[var(--muted)]">{node.description}</p>
@@ -209,10 +229,10 @@ export function NodeDetail({
             src={lightbox}
             alt=""
             className="lightbox-img"
-            draggable={false}
             style={{
               transform: `translate(${lbPan.x}px, ${lbPan.y}px) scale(${lbZoom})`,
             }}
+            draggable={false}
           />
         </div>,
         document.body,

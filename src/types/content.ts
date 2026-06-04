@@ -58,12 +58,27 @@ export interface StoryNode {
   steps?: NodeStep[];
 }
 
+export interface SeasonQuestStep {
+  title: string;
+  body?: string;
+}
+
+export interface SeasonQuest {
+  id: string;
+  title: string;
+  overview: string;
+  steps: SeasonQuestStep[];
+  reward?: string;
+  note?: string;
+}
+
 export interface Chapter {
   id: string;
   title: string;
   flowOrder: string[];
   maps: ChapterMap[];
   nodes: StoryNode[];
+  seasonQuests?: SeasonQuest[];
 }
 
 export interface GuideProgress {

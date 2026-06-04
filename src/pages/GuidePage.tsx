@@ -207,6 +207,7 @@ export function GuidePage() {
           onReturnToCurrent={progress.returnToCurrent}
           chapterId={chapter.id}
           nameLocale={nameLocale}
+          seasonQuests={chapter.seasonQuests}
         />
       </aside>
     </div>

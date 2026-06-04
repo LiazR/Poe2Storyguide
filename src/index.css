@@ -847,3 +847,200 @@ a {
     padding: 0.75rem;
   }
 }
+
+
+
+/*  Season Quest Panel  */
+.season-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 320px;
+  margin-top: 16px;
+  border: 1px solid rgba(72, 160, 120, 0.2);
+  border-radius: 12px;
+  background: rgba(24, 48, 36, 0.4);
+  overflow: hidden;
+}
+
+.season-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 12px 8px 12px;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.season-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border: 1px solid rgba(72, 160, 120, 0.2);
+  border-radius: 8px;
+  background: rgba(72, 160, 120, 0.06);
+  color: #8fd4b0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.season-tab:hover {
+  border-color: rgba(72, 160, 120, 0.4);
+  background: rgba(72, 160, 120, 0.12);
+}
+
+.season-tab.active {
+  border-color: rgba(72, 160, 120, 0.5);
+  background: rgba(72, 160, 120, 0.18);
+  color: #b7f0d0;
+  font-weight: 600;
+}
+
+.season-tab-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(72, 160, 120, 0.2);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.season-detail {
+  padding: 0 16px 14px 16px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.season-detail-title {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #b7f0d0;
+}
+
+.season-detail-overview {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.season-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.season-step {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.season-step:first-child {
+  padding-top: 0;
+}
+
+.season-step:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.season-step-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(72, 160, 120, 0.2);
+  color: #6ee7b0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.season-step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.season-step-title {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.season-step-text {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.season-reward-summary {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 1px solid rgba(72, 160, 120, 0.28);
+  border-radius: 10px;
+  background: rgba(30, 60, 45, 0.22);
+}
+
+.season-reward-summary-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #6ee7b0;
+  font-size: 14px;
+}
+
+.season-reward-summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6ee7b0;
+  margin-bottom: 2px;
+}
+
+.season-reward-summary-text {
+  font-size: 12px;
+  line-height: 1.55;
+  color: #a7f3d0;
+}
+
+.season-note {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(201, 162, 39, 0.08);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.season-note-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(201, 162, 39, 0.2);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+}
