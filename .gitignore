@@ -1,4 +1,29 @@
-node_modules
-dist
-.DS_Store
+# Dependencies
+node_modules/
+
+# Generated build output and TypeScript cache
+/dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local environment files (keep shareable templates)
+.env
+.env.*
+!.env.example
+!.env.*.example
 *.local
+
+# Local editor settings
+/.cursor/
+/.trae/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
